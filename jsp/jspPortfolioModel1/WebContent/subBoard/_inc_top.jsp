@@ -8,3 +8,32 @@
 
 <%@include file = "../_include/inc_header.jsp"%>
 <%@include file = "../_include/inc_sessionChk.jsp"%>
+
+<%
+	String no_ = request.getParameter("no");
+	if(no_ == null || no_.trim().equals("")) { //나중에 숫자가 아닌 값 체크 추가하기
+		no_ = "0"; //새글
+	}
+	int no = Integer.parseInt(no_);
+
+	String searchGubun = request.getParameter("searchGubun");
+	String searchData = request.getParameter("searchData");
+	
+	int imsiCounter = 0;
+	if(searchGubun == null || searchGubun.trim().equals("")) {
+		searchGubun = "";	
+		imsiCounter++;
+	}
+	
+	if(searchData == null || searchData.trim().equals("")) {
+		searchData = "";	
+		imsiCounter++;
+	}
+	
+	if(imsiCounter > 0) {
+		searchData = "";
+		searchData = "";
+	}
+%>
+
+검색 :  <%=searchGubun %>  / <%=searchData %> <hr>

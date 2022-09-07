@@ -13,14 +13,35 @@ public class SubBoardDAO {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	public ArrayList<SubBoardDTO> getSelectAll() {
+	public ArrayList<SubBoardDTO> getSelectAll(SubBoardDTO paramDto) {
 		ArrayList<SubBoardDTO> list = new ArrayList<>();
 		conn = DB.dbConn();
 		try {
 			String sql = "";
 			sql += "select * from board ";
-			sql += "order by no desc";
+			
+			if (paramDto.getSearchGubun().equals("writer_subject_content")) {
+				sql += "where writer like ? or subject like ? or content like ? ";
+			} else if (paramDto.getSearchGubun().equals("writer") || paramDto.getSearchGubun().equals("subject") || paramDto.getSearchGubun().equals("content")) {
+				sql += "where " + paramDto.getSearchGubun()+ " like ? ";
+			} else {
+				
+			}
+			
+			sql += "order by noticeNo desc, refNo desc, levelNo asc";
 			pstmt = conn.prepareStatement(sql);
+			
+			int k = 0;
+			if (paramDto.getSearchGubun().equals("writer_subject_content")) {
+				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
+				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
+				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
+			} else if (paramDto.getSearchGubun().equals("writer") || paramDto.getSearchGubun().equals("subject") || paramDto.getSearchGubun().equals("content")) {
+				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
+			} else {
+				
+			}
+			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				SubBoardDTO dto = new SubBoardDTO();
@@ -59,9 +80,41 @@ public class SubBoardDAO {
 		conn = DB.dbConn();
 		try {
 			String sql = "";
-			sql += "select * from board where no = ?";
+		    sql += "select * from ( ";
+		    sql += "select b.*, ";
+		    sql += "LAG(no) OVER (order by noticeNo desc, refNo desc, levelNo asc) preNo, ";
+		    sql += "LAG(subject) OVER (order by noticeNo desc, refNo desc, levelNo asc) preSubject, ";
+		    sql += "LEAD(no) OVER (order by noticeNo desc, refNo desc, levelNo asc) nxtNo, ";
+		    sql += "LEAD(subject) OVER (order by noticeNo desc, refNo desc, levelNo asc) nxtSubject ";
+		    sql += "from board b where 1 = 1 ";
+		    
+		    //검색한리스트 안에서 이전글/다음글
+		    if (paramDto.getSearchGubun() == null || paramDto.getSearchGubun().length() <= 0 ) { //null처리
+		    	
+		    } else if (paramDto.getSearchGubun().equals("writer_subject_content")) {
+		    	sql += "and (writer like ? or subject like ? or content like ?) ";
+			} else if (paramDto.getSearchGubun().equals("writer") || paramDto.getSearchGubun().equals("subject") || paramDto.getSearchGubun().equals("content")) {
+				sql += "and " + paramDto.getSearchGubun() + " like ? ";
+			} 
+		    
+		    sql += "order by noticeNo desc, refNo desc, levelNo asc";
+		    sql += ") where no = ?";
+		    
+		    
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, paramDto.getNo());
+			
+			int k = 0;
+			if (paramDto.getSearchGubun() == null || paramDto.getSearchGubun().length() <= 0 ) { //null처리
+		    	
+		    } else if (paramDto.getSearchGubun().equals("writer_subject_content")) {
+				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
+				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
+				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
+			} else if (paramDto.getSearchGubun().equals("writer") || paramDto.getSearchGubun().equals("subject") || paramDto.getSearchGubun().equals("content")) {
+				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
+			} 
+			pstmt.setInt(++k, paramDto.getNo()); // k변수 처리로 if문마다 추가해주지않아도 된다.
+			
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				dto.setNo(rs.getInt("no"));
@@ -83,6 +136,11 @@ public class SubBoardDAO {
 				dto.setSecretGubun(rs.getString("secretGubun"));
 				dto.setRegiDate(rs.getDate("regiDate"));
 				dto.setAttachInfo(rs.getString("attachInfo"));
+				
+				dto.setPreNo(rs.getInt("preNo"));
+				dto.setPreSubject(rs.getString("preSubject"));
+				dto.setNxtNo(rs.getInt("nxtNo"));
+				dto.setNxtSubject(rs.getString("nxtSubject"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -130,13 +188,13 @@ public class SubBoardDAO {
 		try {
 			String sql = "";
 			sql += "update board set ";
-			sql += "subject = ?, ";
-			sql += "content = ?, ";
-			sql += "email = ?, ";
-			sql += "noticeNo = ?, ";
-			sql += "secretGugun = ?, ";
-			sql += "attachInfo = ? ";
-			sql += "where no = ? and passswd = ?";
+			sql	+= "subject = ?, ";
+			sql	+= "content = ?, ";
+			sql	+= "email = ?, ";
+			sql	+= "noticeNo = ?, ";
+			sql	+= "secretGubun = ?, ";
+			sql	+= "attachInfo = ? ";
+			sql	+= "where no = ? and passwd = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paramDto.getSubject());
 			pstmt.setString(2, paramDto.getContent());
@@ -191,4 +249,23 @@ public class SubBoardDAO {
 		}
 		return result;
 	}
+	
+	//부모글의 refNo와 같은 것 중에서
+	//부모글의 levelNo보다 큰값 있으면 기존값 + 1
+	public void setUpdateRelevel(SubBoardDTO paramDto) {
+		conn = DB.dbConn();
+		try {
+			String sql = "";
+			sql = "update board set levelNo = (levelNo + 1) where refNo = ? and levelNo > ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, paramDto.getRefNo());
+			pstmt.setInt(2, paramDto.getLevelNo());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DB.dbConnClose(rs, pstmt, conn);
+		}
+	}
+	
 }

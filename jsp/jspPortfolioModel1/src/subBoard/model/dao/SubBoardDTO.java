@@ -23,6 +23,55 @@ public class SubBoardDTO {
 	private Date regiDate;
 	private String attachInfo;
 	
+	private String searchGubun;
+	private String searchData;
+	
+	private int preNo;
+	private String preSubject;
+	private int nxtNo;
+	private String nxtSubject;
+	
+	
+	public int getPreNo() {
+		return preNo;
+	}
+	public void setPreNo(int preNo) {
+		this.preNo = preNo;
+	}
+	public String getPreSubject() {
+		return preSubject;
+	}
+	public void setPreSubject(String preSubject) {
+		this.preSubject = preSubject;
+	}
+	public int getNxtNo() {
+		return nxtNo;
+	}
+	public void setNxtNo(int nxtNo) {
+		this.nxtNo = nxtNo;
+	}
+	public String getNxtSubject() {
+		return nxtSubject;
+	}
+	public void setNxtSubject(String nxtSubject) {
+		this.nxtSubject = nxtSubject;
+	}
+	
+	
+	public String getSearchGubun() {
+		return searchGubun;
+	}
+	public void setSearchGubun(String searchGubun) {
+		this.searchGubun = searchGubun;
+	}
+	public String getSearchData() {
+		return searchData;
+	}
+	public void setSearchData(String searchData) {
+		this.searchData = searchData;
+	}
+	
+	
 	public int getNo() {
 		return no;
 	}
