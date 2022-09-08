@@ -20,10 +20,11 @@
 
 <h2>글 수정</h2>
 <form name="DirForm">
-<input type="text" name="no" value="<%=returnDto.getNo() %>"><br>
-<input type="text" name="dbNoticeNo" value="<%=returnDto.getNoticeNo() %>"><br>
-<input type="text" name="searchGubun" value="<%=searchGubun %>"><br>
-<input type="text" name="searchData" value="<%=searchData %>">
+<input type="text" name="pageNumber" value="<%=pageNumber %>"><br>
+<input type="hidden" name="no" value="<%=returnDto.getNo() %>"><br>
+<input type="hidden" name="dbNoticeNo" value="<%=returnDto.getNoticeNo() %>"><br>
+<input type="hidden" name="searchGubun" value="<%=searchGubun %>"><br>
+<input type="hidden" name="searchData" value="<%=searchData %>">
 <table border="1" width="80%">
 	<tr>
 		<td>작성자</td>
@@ -74,7 +75,7 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<button type="button" onClick="save();">등록하기</button>
+			<button type="button" onClick="save();">수정하기</button>
 			<button type="button" onClick="location.href='main.jsp?menuGubun=subBoard_list'">목록으로</button>
 		</td>
 	</tr>

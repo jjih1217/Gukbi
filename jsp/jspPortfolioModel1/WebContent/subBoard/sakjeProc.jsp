@@ -19,6 +19,7 @@
 	if(!returnDto.getPasswd().equals(passwd)) {
 		String imsiUrl = "";
 		imsiUrl += "main.jsp?menuGubun=subBoard_sakje";
+		imsiUrl += "&pageNumber=" + pageNumber;
 		imsiUrl += "&no=" + no;
 		imsiUrl += "&searchGubun=" + searchGubun;
 		imsiUrl += "&searchData=" + searchData;

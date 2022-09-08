@@ -25,10 +25,12 @@
 
 	if (menuGubun == null || menuGubun.equals("")) {
 		menuGubun = "member_list";
-	/* 	out.println("<script>");
+		/* 	
+		out.println("<script>");
 		out.println("location.href='../error.jsp?errorCode=001';");
-		out.println("</script>"); */
+		out.println("</script>");
 		return;
+		*/
 	}
 	//out.println("menuGubun : " + menuGubun + "<br>");
 	

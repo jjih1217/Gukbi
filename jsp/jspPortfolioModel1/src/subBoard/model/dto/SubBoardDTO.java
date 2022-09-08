@@ -1,4 +1,4 @@
-package subBoard.model.dao;
+package subBoard.model.dto;
 
 import java.sql.Date;
 
@@ -30,6 +30,23 @@ public class SubBoardDTO {
 	private String preSubject;
 	private int nxtNo;
 	private String nxtSubject;
+	
+	private int startRecord;
+	private int lastRecord;
+	
+	
+	public int getStartRecord() {
+		return startRecord;
+	}
+	public void setStartRecord(int startRecord) {
+		this.startRecord = startRecord;
+	}
+	public int getLastRecord() {
+		return lastRecord;
+	}
+	public void setLastRecord(int lastRecord) {
+		this.lastRecord = lastRecord;
+	}
 	
 	
 	public int getPreNo() {

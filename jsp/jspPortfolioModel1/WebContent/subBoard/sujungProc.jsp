@@ -60,12 +60,12 @@
 		out.println("<script>");
 		out.println("alert('수정성공');");
 		//out.println("location.href='main.jsp?menuGubun=subBoard_list&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
-		out.println("location.href='main.jsp?menuGubun=subBoard_view&no=" + no + "&searchGubun=" + searchGubun + "&searchData" + searchData + "';");
+		out.println("location.href='main.jsp?menuGubun=subBoard_view&pageNumber=" + pageNumber + "&no=" + no + "&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
 		out.println("</script>");
 	} else {
 		out.println("<script>");
 		out.println("alert('수정실패');");
-		out.println("location.href='main.jsp?menuGubun=subBoard_sujung&no=" + no + "&searchGubun=" + searchGubun + "&searchData" + searchData + "';");
+		out.println("location.href='main.jsp?menuGubun=subBoard_sujung&pageNumber=" + pageNumber + "&no=" + no + "&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
 		out.println("</script>");
 	}
 

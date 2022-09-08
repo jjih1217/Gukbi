@@ -75,7 +75,11 @@
 		out.println("<script>");
 		out.println("alert('등록성공');");
 		//out.println("location.href='main.jsp?menuGubun=subBoard_list&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
-		out.println("location.href='main.jsp?menuGubun=subBoard_list';");
+		if(no > 0) {
+			out.println("location.href='main.jsp?menuGubun=subBoard_list&pageNumber=" + pageNumber + "';");
+		} else {
+			out.println("location.href='main.jsp?menuGubun=subBoard_list';");
+		}
 		out.println("</script>");
 	} else {
 		out.println("<script>");

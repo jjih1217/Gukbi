@@ -34,7 +34,8 @@
 
 <h2><%=imsiTitle %></h2>
 <form name="DirForm">
-<input type="text" name="no" value="<%=no %>"><br>
+<input type="hidden" name="pageNumber" value="<%=pageNumber %>"><br>
+<input type="hidden" name="no" value="<%=no %>"><br>
 <input type="hidden" name="searchGubun" value="<%=searchGubun %>"><br>
 <input type="hidden" name="searchData" value="<%=searchData %>">
 <table border="1" width="80%">

@@ -30,6 +30,7 @@
 			imsiPage = "viewPasswdPage";
 		}
 	}
+	
 %>
 
 <% if(imsiPage.equals("viewPasswdPage")) { //비밀글 %>
@@ -157,22 +158,51 @@
 	
 	<div style="border: 0px solid red; padding-top: 20px; width: 80%;" align="right">
 		|
-		<a href="#" onClick="move('subBoard_list', '', '', '');">전체목록</a>
+		<a href="main.jsp?menuGubun=subBoard_list">전체목록</a>
 		|
-		<a href="#" onClick="move('subBoard_list','','<%=searchGubun %>', '<%=searchData %>');">목록</a>
+		<a href="#" onClick="move('subBoard_list', '1', '');">목록</a> 
 		|
-		<a href="#" onClick="move('subBoard_chuga','','<%=searchGubun %>', '<%=searchData %>');">등록</a>
+		<a href="#" onClick="move('subBoard_chuga', '<%=pageNumber %>', '');">등록</a>
 		|
-		<a href="#" onClick="move('subBoard_chuga','<%=returnDto.getNo() %>','<%=searchGubun %>', '<%=searchData %>');">답변</a>
+		<a href="#" onClick="move('subBoard_chuga', '<%=pageNumber %>', '<%=returnDto.getNo() %>');">답변</a>
 		|
-		<a href="#" onClick="move('subBoard_sujung','<%=returnDto.getNo() %>','<%=searchGubun %>', '<%=searchData %>');">수정</a>
+		<a href="#" onClick="move('subBoard_sujung', '<%=pageNumber %>', '<%=returnDto.getNo() %>');">수정</a>
 		|
-		<a href="#" onClick="move(subBoard_sakje','<%=returnDto.getNo() %>','<%=searchGubun %>', '<%=searchData %>');">삭제</a>
+		<a href="#" onClick="move('subBoard_sakje', '<%=pageNumber %>', '<%=returnDto.getNo() %>');">삭제</a>
 	</div>
+
+	<script>
+	function move(value1, value2, value3) {
+		var imsiQueryString = '<%=imsiQueryString %>';
+		location.href = 'main.jsp?menuGubun=' + value1 + '&pageNumber=' + value2 + '&no=' + value3 + '&' + imsiQueryString;	
+	}
+	</script>
 <% } %>
 
-<script>
-function move(value1, value2, value3, value4) {
-	location.href = 'main.jsp?menuGubun=' + value1 + '&no=' + value2 + '&searchGubun=' + value3 + '&searchData=' + value4; 	
-}
-</script>
+<!-- 댓글 -->
+<% if(imsiPage.equals("viewPage")) { %>
+
+	<a name="comment"></a>
+	<div id="commentResult" style="border: 0px solid red; padding-top: 20px; width: 80%;" align="center"></div>
+	
+	<script>
+	$(document).ready(function(){
+		commentList();
+	});
+	
+	function commentList() {
+		var param = {
+				"no" : <%=no %>
+		}
+		var url = "../subBoard/commentList.jsp";
+		$.ajax({
+			type : "post", 
+			data : param, 
+			url : url,
+			success : function(data) {
+				$("#commentResult").html(data);
+			}
+		});
+	}
+	</script>
+<% } %>
