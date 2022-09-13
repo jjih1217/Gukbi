@@ -5,15 +5,16 @@
 
 <%	
 	SubBoardDTO arguDto = new SubBoardDTO();
+	arguDto.setTbl(tbl);
 	arguDto.setSearchGubun(searchGubun);
 	arguDto.setSearchData(searchData);
 	
 	SubBoardDAO subBoardDao = new SubBoardDAO();
 	
-	int totalRecord = subBoardDao.getTotalRecord(arguDto);
-	
 	int pageSize = 10; // 한 페이지에 출력될 글 수 
 	int blockSize = 10; //페이징버튼 갯수
+	int totalRecord = subBoardDao.getTotalRecord(arguDto);
+	
 	int block = (pageNumber - 1) / pageSize; //(11-1)/10 = 1
 	int jj = totalRecord - pageSize * (pageNumber - 1); // 화면에 보여질 일련번호
 	
@@ -23,20 +24,25 @@
 	int startRecord = pageSize * (pageNumber - 1) + 1; // 각 페이지마다 첫 행 번호 ex)11페이지: 10*(11-1)+1 = 101
 	int lastRecord = pageSize * pageNumber; // 각 페이지마다 마지막 행 번호 ex)2페이지 : 10*11 = 110
 	
-	arguDto.setStartRecord(startRecord);
-	arguDto.setLastRecord(lastRecord);
+	SubBoardDTO arguDto2 = new SubBoardDTO();
+	arguDto2.setTbl(tbl);
+	arguDto2.setSearchGubun(searchGubun);
+	arguDto2.setSearchData(searchData);
+	arguDto2.setStartRecord(startRecord);
+	arguDto2.setLastRecord(lastRecord);
 	
-	ArrayList<SubBoardDTO> list = subBoardDao.getSelectAll(arguDto);
+	ArrayList<SubBoardDTO> list = subBoardDao.getSelectAll(arguDto2);
 	
 	//String imsiQueryString = "searchGubun=" + searchGubun + "&searhData=" + searchData;
 	
 %>
-<h2>게시글 목록</h2>
+<h2><%=imsiBoardTitle %>게시글 목록</h2>
 <div style="border: 0px solid red; padding: 20px 0; width: 80%;" align="left">
 	<form name="searchForm">
+	<input type="hidden" name="tbl" value="<%=tbl %>"> 
  	<select name="searchGubun">
  		<option value="">-- 선택 --</option> 
- 		<option value="writer" <% if (searchGubun.equals("writer")) { out.println("selected"); } %>>작성자</option> 
+ 		<option value="subject" <% if (searchGubun.equals("writer")) { out.println("selected"); } %>>작성자</option> 
  		<option value="subject" <% if (searchGubun.equals("subject")) { out.println("selected"); } %>>제목</option> 
  		<option value="content" <% if (searchGubun.equals("content")) { out.println("selected"); } %>>내용</option> 
  		<option value="writer_subject_content" <% if (searchGubun.equals("writer_subject_content")) { out.println("selected"); } %>>작성자+제목+내용</option> 
@@ -56,12 +62,11 @@
  	</script>
 </div>
 
-
 <div style="border: 0px solid red; padding: 20px 0; width: 80%;" align="left">
 <% if (imsiSearchCounter > 0) { //검색안함 %>
 	* 전체목록 : <%=totalRecord %> 건 
 <% } else { %>
-	* 검색어 : "<%=searchData %>" (으)로 검색된 목록 : <%=totalRecord %>
+	* 검색어 : "<span style="font-weight: bold; color: red;"><%=searchData %></span>" (으)로 검색된 목록 : <%=totalRecord %>
 <% } %>
 (<%=pageNumber %> / <%=totalPage %>)
 </div>
@@ -142,7 +147,7 @@
 
 <div style="border: 0px solid red; padding-top: 20px; width: 80%;" align="right">
 	|
-	<a href="main.jsp?menuGubun=subBoard_list">전체목록</a>
+	<a href="main.jsp?menuGubun=subBoard_list&tbl=<%=tbl%>">전체목록</a>
 	|
 	<a href="#" onClick="move('subBoard_list', '1', '');">목록</a>
 	|

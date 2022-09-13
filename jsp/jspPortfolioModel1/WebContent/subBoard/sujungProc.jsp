@@ -30,6 +30,7 @@
 	
 	SubBoardDTO arguDto = new SubBoardDTO();
 	arguDto.setNo(no);
+	arguDto.setTbl(tbl);
 	arguDto.setSubject(subject);
 	arguDto.setContent(content);
 	arguDto.setEmail(email);
@@ -45,6 +46,7 @@
 		String imsiUrl = "";
 		imsiUrl += "main.jsp?menuGubun=subBoard_sujung";
 		imsiUrl += "&no=" + no;
+		imsiUrl += "&tbl=" + tbl;
 		imsiUrl += "&searchGubun=" + searchGubun;
 		imsiUrl += "&searchData=" + searchData;
 		
@@ -60,12 +62,12 @@
 		out.println("<script>");
 		out.println("alert('수정성공');");
 		//out.println("location.href='main.jsp?menuGubun=subBoard_list&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
-		out.println("location.href='main.jsp?menuGubun=subBoard_view&pageNumber=" + pageNumber + "&no=" + no + "&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
+		out.println("location.href='main.jsp?menuGubun=subBoard_view&pageNumber=" + pageNumber + "&no=" + no + "&tbl=" + tbl + "&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
 		out.println("</script>");
 	} else {
 		out.println("<script>");
 		out.println("alert('수정실패');");
-		out.println("location.href='main.jsp?menuGubun=subBoard_sujung&pageNumber=" + pageNumber + "&no=" + no + "&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
+		out.println("location.href='main.jsp?menuGubun=subBoard_sujung&pageNumber=" + pageNumber + "&no=" + no + "&tbl=" + tbl + "&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
 		out.println("</script>");
 	}
 

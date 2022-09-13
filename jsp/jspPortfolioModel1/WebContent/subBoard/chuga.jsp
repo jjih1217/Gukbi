@@ -3,7 +3,6 @@
     
 <%@include file="_inc_top.jsp" %> 
 
-
 <% 
 	String imsiTitle = "글쓰기";
 	String imsiSubject = "";
@@ -14,6 +13,7 @@
 		
 		SubBoardDTO arguDto = new SubBoardDTO();
 		arguDto.setNo(no);
+		arguDto.setTbl(tbl);
 		
 		SubBoardDAO subBoardDao = new SubBoardDAO();
 		SubBoardDTO returnDto = subBoardDao.getSelectOne(arguDto);
@@ -32,8 +32,9 @@
 %>
 
 
-<h2><%=imsiTitle %></h2>
+<h2><%=imsiBoardTitle %><%=imsiTitle %></h2>
 <form name="DirForm">
+<input type="hidden" name="tbl" value="<%=tbl %>"><br>
 <input type="hidden" name="pageNumber" value="<%=pageNumber %>"><br>
 <input type="hidden" name="no" value="<%=no %>"><br>
 <input type="hidden" name="searchGubun" value="<%=searchGubun %>"><br>

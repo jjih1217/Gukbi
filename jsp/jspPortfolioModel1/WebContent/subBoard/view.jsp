@@ -13,6 +13,7 @@
 	arguDto.setNo(no);
 	//_inc_top에서 받음
 	// 이전글, 다음글에서 사용하기 위해 searchGubun/searchData 받아옴
+	arguDto.setTbl(tbl);
 	arguDto.setSearchGubun(searchGubun);
 	arguDto.setSearchData(searchData);
 	
@@ -66,7 +67,7 @@
 	</script>
 	
 <% } else { %>
-	<h2>상세보기</h2>
+	<h2><%=imsiBoardTitle %>상세보기</h2>
 	<table border="1" width="80%">
 		<tr>
 			<td width="150">no</td>
@@ -136,7 +137,7 @@
 				<td width="150">이전글</td>
 				<td>
 					<% if(returnDto.getPreNo() > 0) { %>
-						<a href="#" onClick="move('subBoard_view','<%=returnDto.getPreNo() %>','<%=searchGubun %>','<%=searchData %>');"><%=returnDto.getPreSubject() %></a>
+						<a href="#" onClick="move('subBoard_view','<%=pageNumber %>', '<%=returnDto.getPreNo() %>');"><%=returnDto.getPreSubject() %></a>
 					<% } else { %>
 						이전글이 없습니다
 					<% } %>
@@ -146,7 +147,7 @@
 				<td>다음글</td>
 				<td>
 					<% if(returnDto.getNxtNo() > 0) { %>
-						<a href="#" onClick="move('subBoard_view','<%=returnDto.getNxtNo() %>','<%=searchGubun %>','<%=searchData %>');"><%=returnDto.getNxtSubject() %></a>
+						<a href="#" onClick="move('subBoard_view','<%=pageNumber %>', '<%=returnDto.getNxtNo() %>');"><%=returnDto.getNxtSubject() %></a>
 					<% } else { %>
 						다음글이 없습니다
 					<% } %>
@@ -158,7 +159,7 @@
 	
 	<div style="border: 0px solid red; padding-top: 20px; width: 80%;" align="right">
 		|
-		<a href="main.jsp?menuGubun=subBoard_list">전체목록</a>
+		<a href="main.jsp?menuGubun=subBoard_list&tbl=<%=tbl %>">전체목록</a>
 		|
 		<a href="#" onClick="move('subBoard_list', '1', '');">목록</a> 
 		|

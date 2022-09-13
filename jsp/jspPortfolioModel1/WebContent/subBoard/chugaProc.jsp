@@ -15,7 +15,7 @@
 	SubBoardDAO subBoardDao = new SubBoardDAO();
 	
 	int num = subBoardDao.getMaxNumRefNoNoticeNo("num") + 1; //num 필드의 최대값 + 1
-	String tbl = "-";
+	//String tbl = "-";
 	
 	//새글일때
 	int refNo = subBoardDao.getMaxNumRefNoNoticeNo("refNo") + 1; //refNo 필드의 최대값  +1
@@ -26,6 +26,7 @@
 	if(no > 0) {
 		SubBoardDTO imsiArguDto = new SubBoardDTO();
 		imsiArguDto.setNo(no); //getSelectOne null조건 추가해서 searchGubun/ searchData 안물고 가도 됨
+		imsiArguDto.setTbl(tbl);
 		
 		SubBoardDAO imsiReturnDao = new SubBoardDAO();
 		SubBoardDTO imsiReturnDto = imsiReturnDao.getSelectOne(imsiArguDto);
@@ -74,17 +75,17 @@
 	if (result > 0) {
 		out.println("<script>");
 		out.println("alert('등록성공');");
-		//out.println("location.href='main.jsp?menuGubun=subBoard_list&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
+		//out.println("location.href='main.jsp?menuGubun=subBoard_list&tbl=" + tbl + " + "&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
 		if(no > 0) {
-			out.println("location.href='main.jsp?menuGubun=subBoard_list&pageNumber=" + pageNumber + "';");
+			out.println("location.href='main.jsp?menuGubun=subBoard_list&pageNumber=" + pageNumber + "&tbl=" + tbl + "';");
 		} else {
-			out.println("location.href='main.jsp?menuGubun=subBoard_list';");
+			out.println("location.href='main.jsp?menuGubun=subBoard_list&tbl=" + tbl + "';");
 		}
 		out.println("</script>");
 	} else {
 		out.println("<script>");
 		out.println("alert('등록실패');");
-		out.println("location.href='main.jsp?menuGubun=subBoard_chuga&no="+ no +"';");
+		out.println("location.href='main.jsp?menuGubun=subBoard_chuga&no=" + no + "&tbl=" + tbl + "';");
 		out.println("</script>");
 	}
 

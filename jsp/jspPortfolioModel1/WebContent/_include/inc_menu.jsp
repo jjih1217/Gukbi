@@ -6,7 +6,7 @@
 
 <table align="center" width="90%" >
 	<tr>
-		<td colspan="12" align="right">
+		<td colspan="13" align="right">
 			<% if(sessionNo == 0) { %>
 				<a href="main.jsp?menuGubun=noLogin_login">[로그인]</a>
 			<% } else { %>
@@ -49,15 +49,35 @@
 		<td align="center" style="padding: 10px;" id="chart">
 			<a href="<%=path %>/main/main.jsp?menuGubun=chart_list">차트</a>
 		</td>
-		<td align="center" style="padding: 10px;" id="subBoard">
+		<%-- <td align="center" style="padding: 10px;" id="subBoard">
 			<a href="<%=path %>/main/main.jsp?menuGubun=subBoard_list">게시판</a>
+		</td> --%>
+		<td align="center" style="padding: 10px;" id="subBoardfreeboard">
+			<a href="<%=path %>/main/main.jsp?menuGubun=subBoard_list&tbl=freeboard">자유게시판</a>
+		</td>
+		<td align="center" style="padding: 10px;" id="subBoardonebyone">
+			<a href="<%=path %>/main/main.jsp?menuGubun=subBoard_list&tbl=onebyone">1:1게시판</a>
+		</td>
+		<td align="center" style="padding: 10px;" id="subBoardqna">
+			<a href="<%=path %>/main/main.jsp?menuGubun=subBoard_list&tbl=qna">Q&A</a>
+		</td>
+		<td align="center" style="padding: 10px;" id="subBoardChk">
+			<a href="<%=path %>/main/main.jsp?menuGubun=subBoardChk_list">게시판관리</a>
 		</td>
 	</tr>
 </table>
 
 <script>
-function applyBgColor() {
-	$("#<%=folderName %>").css("background-color","gray")
+function suntaekMenuId() {
+   <%
+      String imsiFolderName = folderName;
+   
+      if(imsiFolderName.equals("subBoard")) {
+         String imsiTbl = request.getParameter("tbl");
+         imsiFolderName = imsiFolderName + imsiTbl;
+      }
+   %>
+   $("#<%=imsiFolderName%>").css("background-color", "gray");
 }
-applyBgColor();
+suntaekMenuId();
 </script>

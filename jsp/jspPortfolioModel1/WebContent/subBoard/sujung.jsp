@@ -6,6 +6,7 @@
 <%
 	SubBoardDTO arguDto = new SubBoardDTO();
 	arguDto.setNo(no);
+	arguDto.setTbl(tbl);
 	//arguDto.setSearchGubun(searchGubun);
 	//arguDto.setSearchData(searchData);
 	
@@ -18,9 +19,10 @@
 	}
 %>
 
-<h2>글 수정</h2>
+<h2><%=imsiBoardTitle %>글 수정</h2>
 <form name="DirForm">
-<input type="text" name="pageNumber" value="<%=pageNumber %>"><br>
+<input type="text" name="tbl" value="<%=tbl %>"><br>
+<input type="hidden" name="pageNumber" value="<%=pageNumber %>"><br>
 <input type="hidden" name="no" value="<%=returnDto.getNo() %>"><br>
 <input type="hidden" name="dbNoticeNo" value="<%=returnDto.getNoticeNo() %>"><br>
 <input type="hidden" name="searchGubun" value="<%=searchGubun %>"><br>

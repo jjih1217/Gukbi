@@ -6,7 +6,8 @@
 
 <script>
 function move() {
-	location.href = 'main.jsp?menuGubun=subBoard_list&searchGubun=<%=searchGubun %>&searchData=<%=searchData %>';
+	var imsiQueryString = '<%=imsiQueryString %>';
+	location.href = 'main.jsp?menuGubun=subBoard_list&' + imsiQueryString;
 }
 
 move();

@@ -19,20 +19,21 @@ public class SubBoardDAO {
 		int result = 0;
 		conn = DB.dbConn();
 		try {
-			String sql = "select count(*) counter from board where 1 = 1 ";
-			
-			//검색했을 경우
+		    String sql = "";
+		    sql += "select count(*) counter from board where tbl = ? ";
+		     
+		    //검색
 			if (paramDto.getSearchGubun().equals("writer_subject_content")) {
 				sql += "and (writer like ? or subject like ? or content like ?) ";
 			} else if (paramDto.getSearchGubun().equals("writer") || paramDto.getSearchGubun().equals("subject") || paramDto.getSearchGubun().equals("content")) {
-				sql += "and " + paramDto.getSearchGubun()+ " like ? ";
+				sql += "and " + paramDto.getSearchGubun() + " like ? ";
 			} else {
-				
+			
 			}
 			
 			pstmt = conn.prepareStatement(sql);
-			
 			int k = 0;
+			pstmt.setString(++k, paramDto.getTbl());//추가
 			if (paramDto.getSearchGubun().equals("writer_subject_content")) {
 				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
 				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
@@ -40,13 +41,13 @@ public class SubBoardDAO {
 			} else if (paramDto.getSearchGubun().equals("writer") || paramDto.getSearchGubun().equals("subject") || paramDto.getSearchGubun().equals("content")) {
 				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
 			} else {
-				
-			}
 			
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				result = rs.getInt("counter");
-			}
+			}         
+		     
+		    rs = pstmt.executeQuery();
+		    if (rs.next()) {
+		    	result = rs.getInt("counter");
+		    }
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -54,20 +55,20 @@ public class SubBoardDAO {
 		}
 		return result;
 	}
-	
+		
 	public ArrayList<SubBoardDTO> getSelectAll(SubBoardDTO paramDto) {
 		ArrayList<SubBoardDTO> list = new ArrayList<>();
 		conn = DB.dbConn();
 		try {
 			String basicSql = "";
-			basicSql += "select * from board ";
-			//검색
+			basicSql += "select * from board where tbl=? ";
+			
 			if (paramDto.getSearchGubun().equals("writer_subject_content")) {
-				basicSql += "where writer like ? or subject like ? or content like ? ";
+				basicSql += "and (writer like ? or subject like ? or content like ?) ";
 			} else if (paramDto.getSearchGubun().equals("writer") || paramDto.getSearchGubun().equals("subject") || paramDto.getSearchGubun().equals("content")) {
-				basicSql += "where " + paramDto.getSearchGubun()+ " like ? ";
+				basicSql += "and " + paramDto.getSearchGubun() + " like ? ";
 			} else {
-				
+
 			}
 			
 			basicSql += "order by noticeNo desc, refNo desc, levelNo asc";
@@ -86,6 +87,7 @@ public class SubBoardDAO {
 			
 			//검색
 			int k = 0;
+			pstmt.setString(++k, paramDto.getTbl());
 			if (paramDto.getSearchGubun().equals("writer_subject_content")) {
 				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
 				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
@@ -93,10 +95,10 @@ public class SubBoardDAO {
 			} else if (paramDto.getSearchGubun().equals("writer") || paramDto.getSearchGubun().equals("subject") || paramDto.getSearchGubun().equals("content")) {
 				pstmt.setString(++k, '%' + paramDto.getSearchData() + '%');
 			} else {
-				
+
 			}
 			
-			//페이징
+			//페이징 rnum=?/?
 			pstmt.setInt(++k, paramDto.getStartRecord());
 			pstmt.setInt(++k, paramDto.getLastRecord());
 			
@@ -144,7 +146,7 @@ public class SubBoardDAO {
 		    sql += "LAG(subject) OVER (order by noticeNo desc, refNo desc, levelNo asc) preSubject, ";
 		    sql += "LEAD(no) OVER (order by noticeNo desc, refNo desc, levelNo asc) nxtNo, ";
 		    sql += "LEAD(subject) OVER (order by noticeNo desc, refNo desc, levelNo asc) nxtSubject ";
-		    sql += "from board b where 1 = 1 ";
+		    sql += "from board b where tbl = ? ";//추가
 		    
 		    //검색한리스트 안에서 이전글/다음글
 		    if (paramDto.getSearchGubun() == null || paramDto.getSearchGubun().length() <= 0 ) { //null처리
@@ -158,10 +160,10 @@ public class SubBoardDAO {
 		    sql += "order by noticeNo desc, refNo desc, levelNo asc";
 		    sql += ") where no = ?";
 		    
-		    
 			pstmt = conn.prepareStatement(sql);
 			
 			int k = 0;
+			pstmt.setString(++k, paramDto.getTbl());
 			if (paramDto.getSearchGubun() == null || paramDto.getSearchGubun().length() <= 0 ) { //null처리
 		    	
 		    } else if (paramDto.getSearchGubun().equals("writer_subject_content")) {
@@ -359,7 +361,7 @@ public class SubBoardDAO {
 		int result = 0;
 		conn = DB.dbConn();
 		try {
-			String sql = "insert into boardComment values (seq_boardComment.nextval, ?, ?, ?, ?, ?, ?, sysdate)";
+			String sql = "insert into boardComment values (seq_boardComment.nextval, ?,?,?,?,?,?, sysdate)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, paramDto.getBoardNo());
 			pstmt.setString(2, paramDto.getWriter());
@@ -372,7 +374,7 @@ public class SubBoardDAO {
 			e.printStackTrace();
 		} finally {
 			DB.dbConnClose(rs, pstmt, conn);
-		}
+		}	
 		return result;
 	}
 	

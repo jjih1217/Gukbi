@@ -9,6 +9,7 @@
 	
 	SubBoardDTO arguDto = new SubBoardDTO();
 	arguDto.setNo(no);
+	arguDto.setTbl(tbl);
 	arguDto.setPasswd(passwd);
 	
 	SubBoardDAO subBoardDao = new SubBoardDAO();
@@ -21,6 +22,7 @@
 		imsiUrl += "main.jsp?menuGubun=subBoard_sakje";
 		imsiUrl += "&pageNumber=" + pageNumber;
 		imsiUrl += "&no=" + no;
+		imsiUrl += "&tbl=" + tbl;
 		imsiUrl += "&searchGubun=" + searchGubun;
 		imsiUrl += "&searchData=" + searchData;
 		
@@ -36,12 +38,12 @@
 		out.println("<script>");
 		out.println("alert('삭제성공');");
 		//out.println("location.href='main.jsp?menuGubun=subBoard_list&searchGubun=" + searchGubun + "&searchData=" + searchData + "';");
-		out.println("location.href='main.jsp?menuGubun=subBoard_list&no=" + no + "&searchGubun=" + searchGubun + "&searchData" + searchData + "';");
+		out.println("location.href='main.jsp?menuGubun=subBoard_list&no=" + no + "&tbl=" + tbl + "&searchGubun=" + searchGubun + "&searchData" + searchData + "';");
 		out.println("</script>");
 	} else {
 		out.println("<script>");
 		out.println("alert('삭제실패');");
-		out.println("location.href='main.jsp?menuGubun=subBoard_sakje&no=" + no + "&searchGubun=" + searchGubun + "&searchData" + searchData + "';");
+		out.println("location.href='main.jsp?menuGubun=subBoard_sakje&no=" + no  + "&tbl=" + tbl + "&searchGubun=" + searchGubun + "&searchData" + searchData + "';");
 		out.println("</script>");
 	}
 

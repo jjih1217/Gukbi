@@ -23,14 +23,15 @@
 	<tr>
 		<td style="padding:0 0 20px 0;">
 		
-			proGubun : <span id="procGubun" style="display: ;">chuga</span><br>
+			proGubun : <span id="procGubun" style="display: ;">chugaProc</span><br>
 			no:  <span id="no" style="display: ;"><%=no %></span><br>
 			commentNo : <span id="commentNo" style="display: ;"></span><br>
 			
 			이름 : <input type="text" name="commentWriter" id="commentWriter" size="10" value="">
 			비밀번호 : <input type="text" name="commentPasswd" id="commentPasswd" size="10" value=""><br>
 			댓글 : <input type="text" name="commentContent" id="commentContent" size="40" value="">
-			<button type="button" id="btnCommentSave">확인</button>
+			<button type="button" id="btnCommentSave">등록하기</button>
+			<button type="button" id="btnCommentReset">초기화</button>
 		</td>
 	</tr>
 </table>
@@ -48,9 +49,9 @@
 					<tr>
 						<td><%=dto.getWriter() %>(<%=dto.getCommentNo() %>) &nbsp; <%=dto.getRegiDate() %></td>
 						<td align="right">
-							<a href="#comment" onClick="suntaek('sujung','<%=dto.getCommentNo()%>', '<%=dto.getWriter() %>', '<%=dto.getContent()%>');">수정</a>
+							<a href="#comment" onClick="suntaek('sujungProc','<%=dto.getCommentNo()%>', '<%=dto.getWriter() %>', '<%=dto.getContent()%>', '수정하기');">수정</a>
 							/
-							<a href="#comment" onClick="suntaek('sakje','<%=dto.getCommentNo()%>', '<%=dto.getWriter() %>', '<%=dto.getContent()%>');">삭제</a>
+							<a href="#comment" onClick="suntaek('sakjeProc','<%=dto.getCommentNo()%>', '<%=dto.getWriter() %>', '<%=dto.getContent()%>', '삭제하기');">삭제</a>
 						</td>
 					</tr>
 					<tr>
@@ -66,11 +67,16 @@
 		}
 	%>
 </table>
+<input type="text" id="result">
 
 <script>
 $(document).ready(function(){
 	$("#btnCommentSave").click(function(){
 		commentSave();
+	});
+	
+	$("#btnCommentReset").click(function(){
+		commentReset();
 	});
 });
 
@@ -89,6 +95,12 @@ function commentSave() {
 		data: param,
 		url: url,
 		success: function(data) {
+			$("#result").val(data);
+			if($("#result").val() == 1) {
+				alert("성공");
+			} else {
+				alert("실패");
+			}
 			commentList();
 		}
 	});
@@ -101,6 +113,14 @@ function suntaek(value1, value2, value3, value4, value5) {
 	$("#commentContent").val(value4);
 	$("#btnCommentSave").text(value5);
 	
-	commentSave();
 }
+
+function commentReset() {
+	$("#procGubun").text('chugaProc');
+	$("#commentNo").text('');
+	$("#commentWriter").val('');
+	$("#commentContent").val('');
+	$("#btnCommentSave").text('등록하기');
+}
+
 </script>
