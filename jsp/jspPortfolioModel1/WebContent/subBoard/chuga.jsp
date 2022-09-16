@@ -77,7 +77,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">
+		<td colspan="2" align="center">
 			<button type="button" onClick="save();">등록하기</button>
 			<button type="button" onClick="location.href='main.jsp?menuGubun=subBoard_list'">목록으로</button>
 		</td>
