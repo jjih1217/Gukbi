@@ -1,0 +1,47 @@
+
+테이블명: haksaMember
+학번 hakbun
+이름 name
+연락처 phone
+부모연락처 parentPhone
+주소1 addr1
+주소2 addr2
+주소3 addr3
+주소4 addr4 
+등록일 regiDate
+
+테이블명: haksaSihum
+create table haksaSihum(
+sihumNo number not null,
+sihumName varchar2(50) not null,
+sihumDate date not null,
+regiDate Date not null,
+primary key(sihumNo)
+);
+select  * from haksaSihum;
+create sequence seq_haksaSihum start with 1 increment by 1 nomaxvalue nocache;
+
+
+테이블명: haksaSungjuk
+create table haksaSungjuk(
+sungjukNo number not null,
+kor number not null,
+eng number not null,
+mat number not null,
+sci number not null,
+his number not null,
+tot number not null,
+avg number not null,
+grade varchar2(50) not null,
+hakbun number not null,
+sihumNo number not null,
+regiDate Date not null,
+primary key(sungjukNo)
+);
+
+create sequence seq_haksaSungjuk start with 1 increment by 1 nomaxvalue nocache;
+
+alter table haksaSungjuk add constraint FK_haksaSungjuk_haksaMember
+foreign key (hakbun) references haksaMember (hakbun);
+alter table haksaSungjuk add constraint FK_haksaSungjuk_haksaSihum
+foreign key (sihumNo) references haksaSihum (sihumNo);

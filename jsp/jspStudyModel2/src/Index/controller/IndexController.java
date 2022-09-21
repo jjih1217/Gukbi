@@ -25,6 +25,13 @@ public class IndexController extends HttpServlet {
 	protected void doProc(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
+		String path = request.getContextPath();
+		String url = request.getRequestURL().toString();
+		String uri = request.getRequestURI().toString();
+		
+		request.setAttribute("path", path);
+		
+		
 		String forwardPage = "/WEB-INF/index.jsp";
 		RequestDispatcher rd = request.getRequestDispatcher(forwardPage);
 		rd.forward(request, response);

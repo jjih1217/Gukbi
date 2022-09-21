@@ -1,0 +1,46 @@
+--직원관리
+테이블명: employee
+create table employee(
+sabun number not null,
+name varchar2(50) not null,
+phone varchar2(50) not null,
+hireDate date not null,
+email varchar2(50) not null,
+salary number not null,
+buseoNo number not null,
+regiDate Date not null,
+primary key(sabun)
+);
+create sequence seq_employee start with 1 increment by 1 nomaxvalue nocache;
+
+--부서관리
+create table buseo(
+buseoNo number not null,
+buseoName varchar2(50) not null,
+regiDate Date not null,
+primary key(buseoNo)
+);
+create sequence seq_buseo start with 1 increment by 1 nomaxvalue nocache;
+
+
+alter table employee add constraint FK_employee_buseo
+foreign key (buseoNo) references buseo (buseoNo);
+
+
+--제품관리
+create table jepum(
+code number not null,
+name varchar2(50) not null,
+standard varchar2(50) not null,
+unit varchar2(50) not null,
+barcode varchar2(50) not null,
+wdate date default sysdate,
+primary key(code)
+);
+
+001
+티셔츠
+std
+unit
+b001
+2022-09-21
