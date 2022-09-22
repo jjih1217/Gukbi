@@ -1,0 +1,40 @@
+-- tablespace 생성
+create tablespace jspPortfolioModel2
+datafile 'c:/jih/oradata/jspPortfolioModel2.dbf' size 50m
+autoextend on
+next 10m
+maxsize unlimited;
+
+--계정생성
+create user jspPortfolioModel2 identified by 1234
+default tablespace jspPortfolioModel2;
+
+- 권한부여
+grant connect, resource to jspPortfolioModel2;
+
+
+--member
+create table member(
+no number not null,
+id varchar2(10) not null,
+passwd varchar2(250) not null,
+name varchar2(15) not null,
+jumin1 varchar2(6) not null,
+jumin2 varchar2(1) not null,
+phone1 varchar2(3) not null,
+phone2 varchar2(4) not null,
+phone3 varchar2(4) not null,
+email1 varchar2(50) not null,
+email2 varchar2(50) not null,
+
+postcode varchar2(50) not null,
+address varchar2(50) not null,
+detailAddress varchar2(50) not null,
+extraAddress varchar2(50) not null,
+
+regiDate date default sysdate,
+primary key(id),
+unique(no)
+);
+
+create sequence seq_member start with 1 increment by 1 nomaxvalue nocache;

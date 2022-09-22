@@ -43,4 +43,6 @@
 &nbsp;
 <a href="${path}/buseo_servlet/list.do">부서관리</a>
 &nbsp;
+<a href="${path}/jepum_servlet/list.do">제품관리</a>
+&nbsp;
 <hr>

@@ -39,6 +39,7 @@ public class ExampleSujung {
 		} else {
 			System.out.println("-- fail update");
 		}
+		
 	}
 
 }
