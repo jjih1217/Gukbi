@@ -4,6 +4,8 @@
 <h2>회원삭제</h2>  
 <form name="DirForm">
 <input type="text" name="no" value="${dto.no }">
+<input type="text" name="searchGubun" id="id" value="${searchGubun }">
+<input type="text" name="searchData" id="id" value="${searchData }">
 <table border="1" align="center" width="80%">
 	<tr>
 		<td width="150">아이디</td>
@@ -65,6 +67,7 @@
 	<tr>
 		<td colspan="2" align="center" style="height: 50px;">
 			<button type="button" onClick="save();">삭제하기</button>
+			<button type="button" onClick="move('member_list.do','');">목록으로</button>
 		</td>
 	</tr>
 </table>
@@ -76,5 +79,8 @@ function save() {
 		document.DirForm.method = "post";
 		document.DirForm.submit();
 	}
+}
+function move (value1, value2) {
+	location.href = "${path}/member_servlet/" + value1 + "?no=" + value2 + "&${searchQuery}";
 }
 </script>

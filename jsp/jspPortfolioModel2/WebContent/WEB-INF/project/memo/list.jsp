@@ -31,8 +31,8 @@ ${list }
 	</c:forEach>
 </table>
 <div style="width: 80%; margin-top: 10px;" align= right>
-<a href="#" onClick="move('memo_list.do','');">목록</a>
-<a href="#" onClick="move('memo_chuga.do','');">등록</a>
+	<a href="#" onClick="move('memo_list.do','');">목록</a>
+	<a href="#" onClick="move('memo_chuga.do','');">등록</a>
 </div>
 <script>
 function move (value1, value2) {

@@ -3,6 +3,8 @@ package project.common;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,17 +38,21 @@ public class Util {
         if (ip6 == null || ip6.length() == 0 || "unknown".equalsIgnoreCase(ip6)) {  
         	ip6 = request.getRemoteAddr();  
         }
-        
+
         String[] imsiUriArray = uri.split("/"); // [ _ , jspPortfolioModel2 , member_servlet , member_chuga.do ]
 		String imsiUrlFileName = imsiUriArray[imsiUriArray.length - 1]; // 4-1 member_chuga.do
+		
+		if(path.equals("/"+ imsiUrlFileName)) {
+			imsiUrlFileName = "dashBoard_index.do";
+		}
+		
 		imsiUrlFileName = imsiUrlFileName.replace(".do", ""); // member_chuga
 		
-		/*
 		String[] imsiArray = imsiUrlFileName.split("_");
 		String folderName = imsiArray[0];
 		String fileName = imsiArray[1];
-		*/
 		
+		/*
 		String folderName = "";
 		String fileName = "";
 		if (!imsiUrlFileName.equals(path.substring(1))) {
@@ -54,7 +60,7 @@ public class Util {
 			folderName = imsiArray[0];
 			fileName = imsiArray[1];
 		}
-		
+		*/
 		
 		String[] array = new String[8];
 		array[0] = referer;
@@ -160,5 +166,39 @@ public class Util {
 	}
 	public String createUuid(){
 		return UUID.randomUUID().toString();
+	}
+	
+	public Map<String, Integer> getPagerMap(int pageNumber, int pageSize, int blockSize, int totalRecord) {
+		
+		int jj = totalRecord - pageSize * (pageNumber - 1);
+		int startRecord = pageSize * (pageNumber - 1) + 1;
+		int lastRecord = pageSize * pageNumber;
+		if(lastRecord > totalRecord) {
+			lastRecord = totalRecord;
+		}
+		
+		int totalPage = 0;
+		int startPage = 1;
+		int lastPage = 1;
+		if(totalRecord > 0) {
+			totalPage = totalRecord / pageSize + (totalRecord % pageSize == 0 ? 0 : 1);
+			startPage = (pageNumber / blockSize - (pageNumber % blockSize != 0 ? 0 : 1)) * blockSize + 1;
+			lastPage = startPage + blockSize - 1;
+			if(lastPage > totalPage) {
+				lastPage = totalPage;
+			}
+			
+		} 
+		
+		Map<String,Integer> map = new HashMap<>();
+		map.put("jj", jj);
+		map.put("startRecord", startRecord);
+		map.put("lastRecord", lastRecord);
+		map.put("totalPage", totalPage);
+		map.put("startPage", startPage);
+		map.put("lastPage", lastPage);
+		
+
+		return map;
 	}
 }

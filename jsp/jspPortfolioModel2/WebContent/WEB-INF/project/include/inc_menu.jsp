@@ -2,13 +2,15 @@
     pageEncoding="UTF-8"%>
 
     
-<table border="0" align="center" witdh="80%">
+<table border="0" align="center" width="80%">
 	<tr>
-		<td colspan="13" style="padding: 0 0 0 20px">
+		<td colspan="13 style="padding: 0 0 10px 10px">
 		location : project> ${folderName } > ${fileName }
 		</td>
-		<td colspan="13" style="padding: 0 0 0 20px">
-		접속Ip: ${ip }
+		<td colspan="13" style="padding: 0 0 0 20px" align="right">
+		접속IP : ${ip }
+		<br>
+		<%-- ${referer } --%>
 		</td>
 	</tr>
 	<tr>

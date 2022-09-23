@@ -40,6 +40,7 @@ public class MemoController extends HttpServlet {
 		String folderName = serverInfo[6];
 		String fileName = serverInfo[7];
 		
+		request.setAttribute("referer", referer);
 		request.setAttribute("path", path);
 		request.setAttribute("ip", ip);
 		request.setAttribute("folderName", folderName);

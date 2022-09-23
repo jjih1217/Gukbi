@@ -6,13 +6,15 @@
 <h2>메모수정</h2>  
 <form name="DirForm">
 <input type="text" name="no" value="${dto.no }">
+<input type="text" name="searchGubun" id="id" value="${searchGubun }">
+<input type="text" name="searchData" id="id" value="${searchData }">
 <table border="1" align="center" width="80%">
 	<tr>
-		<td width="150">작성자</td>
-		<td>${dto.writer }</td>
+		<td width="150">아이디</td>
+		<td>${dto.id }</td>
 	</tr>
 	<tr>
-		<td>내용</td>
+		<td>비밀번호</td>
 		<td>
 			<input type="password" name="passwd" value="">
 		</td>
@@ -106,6 +108,7 @@
 	<tr>
 		<td colspan="2" align="center" style="height: 50px;">
 			<button type="button" onClick="save();">수정하기</button>
+			<button type="button" onClick="move('member_list.do','');">목록으로</button>
 		</td>
 	</tr>
 </table>
@@ -118,6 +121,10 @@ function save() {
 		document.DirForm.method = "post";
 		document.DirForm.submit();
 	}
+}
+
+function move (value1, value2) {
+	location.href = "${path}/member_servlet/" + value1 + "?no=" + value2 + "&${searchQuery}";
 }
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

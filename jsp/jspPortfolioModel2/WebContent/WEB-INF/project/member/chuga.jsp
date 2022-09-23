@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<h2>회원추가</h2>  
+<h2>회원등록</h2>  
 <form name="DirForm">
+<input type="text" name="searchGubun" id="id" value="${searchGubun }">
+<input type="text" name="searchData" id="id" value="${searchData }">
 <table border="1" align="center" width="80%">
 	<tr>
 		<td width="150">아이디</td>
@@ -84,6 +86,7 @@
 	<tr>
 		<td colspan="2" align="center" style="height: 50px;">
 			<button type="button" onClick="save();">등록하기</button>
+			<button type="button" onClick="move('member_list.do','');">목록으로</button>
 		</td>
 	</tr>
 </table>
@@ -96,6 +99,18 @@ function save() {
 		document.DirForm.method = "post";
 		document.DirForm.submit();
 	}
+}
+
+function move (value1, value2) {
+	location.href = "${path}/member_servlet/" + value1 + "?no=" + value2 + "&${searchQuery}";
+}
+
+function idCheck() {
+	alert('idCheck');
+}
+
+function idCheckWin() {
+	window.open("${path }/member_servlet/member_idCheckWin.do", "idCheckNo", "width=600, height=210, toolbar=no, menubar=no, scrollbar=no, resizable=no")
 }
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
