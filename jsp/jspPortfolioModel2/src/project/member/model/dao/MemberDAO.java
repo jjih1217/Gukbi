@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import oracle.net.aso.p;
 import project.common.DB;
 import project.member.model.dto.MemberDTO;
 
@@ -196,6 +197,30 @@ public class MemberDAO {
 		}
 		return dto;
 	}
+	
+	public MemberDTO getLogin(MemberDTO paramDto) {
+		MemberDTO dto = new MemberDTO();
+		conn = DB.dbConn();
+		try {
+			String sql = "select no, id, name from member where id = ? and passwd = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paramDto.getId());
+			pstmt.setString(2, paramDto.getPasswd());
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				dto.setNo(rs.getInt("no"));
+				dto.setId(rs.getString("id"));
+				dto.setName(rs.getString("name"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DB.dbConnClose(rs, pstmt, conn);
+		}
+		return dto;
+	}
+	
+	
 	
 	public int setInsert(MemberDTO paramDto) {
 		int result = 0;

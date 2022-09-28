@@ -13,9 +13,7 @@
 	<tr>
 		<td>내용</td>
 		<td>
-			<textarea name="content">
-			
-			</textarea>
+			<textarea name="content" style="width:200px; height:150px"></textarea>
 		</td>
 	</tr>
 	<tr>

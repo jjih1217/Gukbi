@@ -1,7 +1,10 @@
 package project.memo.controller;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,10 +49,66 @@ public class MemoController extends HttpServlet {
 		request.setAttribute("folderName", folderName);
 		request.setAttribute("fileName", fileName);
 		
+		
+		String pageNumber_ = request.getParameter("pageNumber");
+		int pageNumber = util.getNumberCheck(pageNumber_, 1);
+		request.setAttribute("pageNumber", pageNumber);
+		
+		String searchGubun = request.getParameter("searchGubun");
+		String searchData = request.getParameter("searchData");
+		
+		String imsiSearchYN = "O";
+		searchGubun = util.getNullBlankCheck(searchGubun);
+		searchData = util.getNullBlankCheck(searchData);
+		
+		if(searchGubun.equals("") || searchData.equals("")) {
+			imsiSearchYN = "X";
+			searchGubun = "";
+			searchData = "";
+		}
+		
+		//searchGubun = URLEncoder.encode(searchGubun,"UTF-8");
+		//searchData = URLEncoder.encode(searchData,"UTF-8");
+		searchGubun = URLDecoder.decode(searchGubun,"UTF-8");
+		searchData = URLDecoder.decode(searchData,"UTF-8");
+		
+		String searchQuery = "pageNumber=" + pageNumber + "&searchGubun=&searchData=";
+		if(imsiSearchYN.equals("O")) {
+			String imsiSerchGubun = URLEncoder.encode(searchGubun,"UTF-8");
+			String imsiSerchData = URLEncoder.encode(searchData,"UTF-8");
+			searchQuery = "pageNumber=" + pageNumber + "&searchGubun=" + imsiSerchGubun + "&searchData=" + imsiSerchData;
+		}
+		
+		request.setAttribute("searchGubun", searchGubun);
+		request.setAttribute("searchData", searchData);
+		request.setAttribute("searchQuery", searchQuery);
+		
+		
 		String forwardPage = "/WEB-INF/project/main/main.jsp"; // 무조건 메인으로 이동
 		if(fileName.equals("list")) {
+			MemoDTO arguDto2 = new MemoDTO();
+			arguDto2.setSearchGubun(searchGubun);
+			arguDto2.setSearchData(searchData);
+			
 			MemoDAO dao = new MemoDAO();
-			ArrayList<MemoDTO> list  = dao.getSelectAll();
+			
+			//-------------------------------------------------------------------
+			int pageSize = 3;
+			int blockSize = 10;
+			int totalRecord = dao.getTotalRecord(arguDto2);
+			request.setAttribute("totalRecord", totalRecord);
+			
+			Map<String, Integer> map = util.getPagerMap(pageNumber, pageSize, blockSize, totalRecord);
+			map.put("blockSize", blockSize);
+			request.setAttribute("map", map);
+			
+			MemoDTO arguDto = new MemoDTO();
+			arguDto.setSearchGubun(searchGubun);
+			arguDto.setSearchData(searchData);
+			arguDto.setStartRecord(map.get("startRecord"));
+			arguDto.setLastRecord(map.get("lastRecord"));
+			
+			ArrayList<MemoDTO> list  = dao.getSelectAll(arguDto);
 			request.setAttribute("list", list);
 			
 			RequestDispatcher rd = request.getRequestDispatcher(forwardPage);
@@ -60,12 +119,14 @@ public class MemoController extends HttpServlet {
 			int no = util.getNumberCheck(no_, 0);
 			
 			if(no == 0) {
-				System.out.println("no ; " + no);
+				System.out.println("no : " + no);
 				return;
 			}
 			
 			MemoDTO arguDto = new MemoDTO();
 			arguDto.setNo(no);
+			arguDto.setSearchGubun(searchGubun);
+			arguDto.setSearchData(searchData);
 					
 			MemoDAO dao = new MemoDAO();
 			MemoDTO returnDto = dao.getSelectOne(arguDto);
@@ -117,6 +178,13 @@ public class MemoController extends HttpServlet {
 			
 			RequestDispatcher rd = request.getRequestDispatcher(forwardPage);
 			rd.forward(request, response);
+			
+		}  else if(fileName.equals("search")) {
+			
+			String moveUrl = "";
+			moveUrl += path + "/memo_servlet/memo_list.do?" + searchQuery;
+			
+			response.sendRedirect(moveUrl);
 			
 		} else if(fileName.equals("chugaProc")) {
 			String writer = request.getParameter("writer");

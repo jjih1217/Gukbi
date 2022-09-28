@@ -3,6 +3,7 @@
 
 <h2>메모 수정</h2>
 <form name="DirForm">
+<input type="text" name="no" value="${dto.no }">
 <table border="1" width="80%">
 	<tr>
 		<td width="100px">작성자</td>

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ include file = "../include/inc_header.jsp" %>
+<%@ include file = "_inc_top.jsp" %>
 
 <h2>회원관리</h2>
 
@@ -54,9 +55,11 @@
 	|
 	<a href="#" onClick="move('member_chuga.do','');">등록</a>
 	|
+	<a href="#" onClick="move('member_chugaAttach.do','');">등록(파일)</a>
+	|
 </div>
 
-<div style="width=80%; margin-top: 10px;" align="center">
+<div style="width:80%; margin-top: 10px;" align="center">
 <form name="searchForm">
 	<select name="searchGubun" id="searchGubun">
 		<c:choose>

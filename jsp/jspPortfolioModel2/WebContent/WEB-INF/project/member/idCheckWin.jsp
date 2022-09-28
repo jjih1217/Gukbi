@@ -21,16 +21,20 @@
 			<td>
 				<input type="text" name="id" id="id" value="${id }" style="width: 100px">
 				<span id="spanMsg">${msg }</span>
-				<br>
-				<input type="text" name="result" id="result" value="" style="width: 100px">
+				<input type="hidden" name="result" id="result" value="${imsiId }" style="width: 100px">
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center" style="height: 50px">
 				<button type="button" onClick="search();">검색</button>
-				<span id="spanView" style="display:none;">
-					<button type="button" onClick="save();">적용</button>
-				</span>
+				<c:choose>
+					<c:when test="${imsiId == ''}">
+						&nbsp;
+					</c:when>
+					<c:otherwise>
+						<button type="button" onClick="apply();">적용</button>
+					</c:otherwise>
+				</c:choose>
 			</td>
 		</tr>
 	</table>
@@ -48,6 +52,14 @@ function search() {
 		document.DirForm.method = "post";
 		document.DirForm.submit();
 	}
+}
+
+function apply() {
+	var id = document.getElementById("result").value;
+	opener.document.getElementById("id").value = id;
+	opener.document.getElementById("tempId").value = id;
+	opener.document.getElementById("label_id").innerHTML = "<font style = 'color:red; font-size: 10px;'>hahaha</font>";
+	window.close();
 }
 </script>
 

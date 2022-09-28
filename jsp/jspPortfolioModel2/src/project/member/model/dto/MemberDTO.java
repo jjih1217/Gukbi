@@ -31,6 +31,14 @@ public class MemberDTO {
 	private int nxtNo;
 	private String nxtName;
 	
+	private String dispInfo;
+	
+	public String getDispInfo() {
+		return dispInfo;
+	}
+	public void setDispInfo(String dispInfo) {
+		this.dispInfo = dispInfo;
+	}
 	public int getPreNo() {
 		return preNo;
 	}

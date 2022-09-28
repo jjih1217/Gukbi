@@ -1,15 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ include file = "../include/inc_header.jsp" %>
+<%@ include file = "_inc_top.jsp" %>
 
 <h2>회원등록</h2>  
 <form name="DirForm">
-<input type="text" name="searchGubun" id="id" value="${searchGubun }">
-<input type="text" name="searchData" id="id" value="${searchData }">
+<input type="hidden" name="searchGubun" id="searchGubun" value="${searchGubun }">
+<input type="hidden" name="searchData" id="searchGubun" value="${searchData }">
 <table border="1" align="center" width="80%">
 	<tr>
 		<td width="150">아이디</td>
 		<td>
 			<input type="text" name="id" id="id" value="">
+			<input type="hidden" name="tempId" id="tempId" value="">
 			<button type="button" onClick="idCheck();">아이디찾기</button>
 			<button type="button" onClick="idCheckWin();">아이디찾기(새창)</button>
 			<br>
@@ -94,6 +98,16 @@
 
 <script>
 function save() {
+	var id = document.DirForm.id.value;
+	var tempId = document.DirForm.tempId.value;
+	
+	
+	if(id == '' || tempId == '' && id != tempId){
+		alert('아이디 찾기를 해주세요');
+		return;
+	}
+	
+	
 	if(confirm('OK?')){
 		document.DirForm.action = "${path}/member_servlet/member_chugaProc.do";
 		document.DirForm.method = "post";
@@ -106,7 +120,38 @@ function move (value1, value2) {
 }
 
 function idCheck() {
-	alert('idCheck');
+	var id = $("#id").val();
+	if(id == '') {
+		$("#label_id").html("아이디를 입력하세요");
+		$("#label_id").css('color', 'blue');
+		$("#label_id").css('font-size', '8px');
+		$("#id").focus();
+		return;
+	}
+	
+	//var param = {"id" : id }
+	var param = "id=" + id
+	$.ajax({
+		type: "post",
+		data: param,
+		url: "${path}/member_servlet/member_idCheck.do",
+		success: function(result) {
+			alert('id:' + id);
+			if(result > 0) {
+				$("#id").val('');
+				$("#tempId").val('');
+				$("#label_id").html("이미 사용중인 아이디입니다");
+				$("#label_id").css('color', 'red');
+				$("#label_id").css('font-size', '8px');
+			} else {
+				$("#id").val(id);
+				$("#tempId").val(id);
+				$("#label_id").html("사용가능한 아이디입니다");
+				$("#label_id").css('color', 'blue');
+				$("#label_id").css('font-size', '8px');
+			}
+		}
+	});
 }
 
 function idCheckWin() {
