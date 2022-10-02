@@ -1,11 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ include file = "_inc_top.jsp" %> <!-- LOGIN CHK -->
+<%@ include file = "../_include/inc_header.jsp" %>
 
-<h2>회원등록</h2>
-<form name = "chugaForm">
-<table border="1" align="center">
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%@ include file = "../_include/inc_menu.jsp" %>
+
+<h2>${title}</h2>
+<form name="DirForm">
+<table border="1">
 	<tr>
 		<td>아이디 : </td>
 		<td><input type="text" name="id"></td>
@@ -41,11 +50,11 @@
 	<tr>
 		<td>주소</td>
 		<td>
-			<input type="text" id="sample6_postcode" placeholder="우편번호" name="juso1">
+			<input type="text" id="sample6_postcode" placeholder="우편번호" name="juso1" >
 			<button type="button" onClick="sample6_execDaumPostcode();">우편번호 찾기</button><br>
-			<input type="text" id="sample6_address" placeholder="주소" name="juso2"><br>
-			<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="juso3">
-			<input type="text" id="sample6_extraAddress" placeholder="참고항목" name="juso4">
+			<input type="text" id="sample6_address" placeholder="주소" name="juso2" ><br>
+			<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="juso3" >
+			<input type="text" id="sample6_extraAddress" placeholder="참고항목" name="juso4" >
 		</td>
 	</tr>
 	<tr>
@@ -57,22 +66,27 @@
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2">
-			<button type="button" Onclick="join();">가입하기</button>
-			<button type="button" Onclick="">목록으로</button>
+		<td>첨부파일</td>
+		<td>
+			<input type="file" name="attachInfo" value="-">
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<button type="button" Onclick="save();">확인</button>
 		</td>
 	</tr>
 </table>
 </form>
 
 <script>
-function join() {
-	if (confirm('등록할까요?')){
-		document.chugaForm.action = "mainProc.jsp?menuGubun=member_chugaProc";
-		document.chugaForm.method = "post";
-		document.chugaForm.submit();
+function save() {
+	if(confirm('저장할까요?')) {
+		document.DirForm.action = "${path}/member/chugaProc";
+		document.DirForm.method = "post";
+		document.DirForm.submit();
 	}
 }
 </script>
-
-<jsp:include page="_inc_daumApi.jsp" flush="true"></jsp:include>
+</body>
+</html>

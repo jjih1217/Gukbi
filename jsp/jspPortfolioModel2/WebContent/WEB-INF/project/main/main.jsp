@@ -9,26 +9,22 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/reset.css?v=1"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css?v=1"/>
+
 </head>
 <body>
-
-<table border="1" align="center" width="80%">
-	<tr>
-		<td align="center" style="padding: 20px 20px">
-			<jsp:include page="../include/inc_menu.jsp"></jsp:include>
-		</td>
-	</tr>
-	<tr>
-		<td align="center" style="padding: 20px 20px 40px 20px">
-			<jsp:include page="../${folderName }/${fileName }.jsp"></jsp:include>
-		</td>
-		</tr>
-	<tr>
-		<td align="center" style="padding: 20px 20px">
-			<jsp:include page="../include/inc_bottom.jsp"></jsp:include>
-		</td>
-	</tr>
-</table>
+<div class="wrap">
+	<header>
+		<jsp:include page="../include/inc_menu.jsp"></jsp:include>
+	</header>
+	<div class="main">
+		<jsp:include page="../${folderName }/${fileName }.jsp"></jsp:include>
+	</div>
+	<footer>
+		<jsp:include page="../include/inc_bottom.jsp"></jsp:include>
+	</footer>
+</div>
 
 </body>
 </html>

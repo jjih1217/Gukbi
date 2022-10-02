@@ -1,0 +1,26 @@
+@charset "UTF-8";
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+* {box-sizing: border-box;  font-family: 'Pretendard';}
+.wrap{width : 100%;}
+.header {width : 100%;}
+.header .global{display: flex;justify-content: space-between;padding: 15px 5%; background: #f4f4f5;}
+.header .global div{font-size: 0.92rem;}
+.header .global div a{
+}
+.header .global div a.login{ background:#000;color: #fff;padding: 6px 10px;border-radius: 20px;}
+.header .global div a.logout{}
+
+nav{width : 100%;border-bottom: 1px solid #eee;background: #fff;}
+nav ul{display: flex;justify-content: space-between;align-items: center;margin: 0 5%;}
+nav ul li{}
+nav ul li a{display: block;text-align: center;padding: 16px 0;position: relative; transition:all 0.3s ease;font-weight: 500;color: #6c6c6c;}
+nav ul li a:hover { color:#000;}
+.main {
+    margin: 150px 5%;
+    text-align: center;
+}
+.main .h2 {
+    font-size: 1.5rem;
+}
+}

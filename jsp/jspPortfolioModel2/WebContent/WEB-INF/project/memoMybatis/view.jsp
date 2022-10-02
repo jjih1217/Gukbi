@@ -55,7 +55,7 @@
 
 <div style="width: 80%; margin-top: 10px;" align="right">
 	|
-	<a href="${path }/memoMybatis_servle/'memoMybatis_list.do">전체목록</a>
+	<a href="${path }/memoMybatis_servlet/memoMybatis_list.do">전체목록</a>
 	|
 	<a href="#" onClick="move('memoMybatis_list.do','');">목록</a>
 	|

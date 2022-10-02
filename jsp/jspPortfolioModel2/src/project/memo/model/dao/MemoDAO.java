@@ -118,23 +118,22 @@ public class MemoDAO {
 			sql += "select * from ( ";
 			
 //-----------------------------------------------------------------------
-			sql += "select m.*,  ";
-			sql += "LAG(no) OVER (order by no desc) preNo, ";
-			sql += "LAG(writer) OVER (order by no desc) preName, ";
-			sql += "LEAD(no) OVER (order by no desc) nxtNo, ";
-			sql += "LEAD(writer) OVER (order by no desc) nxtName ";
+				sql += "select m.*,  ";
+				sql += "LAG(no) OVER (order by no desc) preNo, ";
+				sql += "LAG(writer) OVER (order by no desc) preName, ";
+				sql += "LEAD(no) OVER (order by no desc) nxtNo, ";
+				sql += "LEAD(writer) OVER (order by no desc) nxtName ";
+				sql += "from memo m where 1 = 1";
 			
-			sql += "from memo m where 1 = 1";
-			
-			if(paramDto.getSearchGubun().equals("writer")) {
-				sql += "and writer like ? ";
-			} else if(paramDto.getSearchGubun().equals("content")) {
-				sql += "and content like ? ";
-			} else if(paramDto.getSearchGubun().equals("writer_content")) {
-				sql += "and (id writer ? or content like ?) ";
-			}
-			
-			sql += "order by no desc ";
+				if(paramDto.getSearchGubun().equals("writer")) {
+					sql += "and writer like ? ";
+				} else if(paramDto.getSearchGubun().equals("content")) {
+					sql += "and content like ? ";
+				} else if(paramDto.getSearchGubun().equals("writer_content")) {
+					sql += "and (id writer ? or content like ?) ";
+				}
+				
+				sql += "order by no desc ";
 //-----------------------------------------------------------------------
 			
 			sql += " ) where no = ?";

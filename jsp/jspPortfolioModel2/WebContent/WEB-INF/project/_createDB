@@ -38,3 +38,54 @@ unique(no)
 );
 
 create sequence seq_member start with 1 increment by 1 nomaxvalue nocache;
+
+
+--메모장
+create table memo(
+no numberc
+writer varchar2(50) not null,
+content clob not null,
+refiDate date not null,
+primary key(no)
+)
+
+create sequence seq_memo start with 1 increment by 1 nomaxvalue nocache; 
+
+
+--방명록
+create table guestBook (
+no number not null,
+name varchar2(50) not null,
+email varchar2(50) not null,
+passwd varchar2(50) not null,
+content clob  not null,
+regiDate date not null,
+memberNo number not null,
+primary key(no)
+);
+create sequence seq_guesBook start with 1 increment by 1 nomaxvalue nocache;
+
+--게시판
+create table board(
+    no number not null,
+    num number not null,
+    tbl varchar2(50) not null,
+    writer varchar2(50) not null,
+    subject varchar2(50) not null,
+    content clob not null,
+    email varchar2(50) not null,
+    passwd varchar2(50) not null,
+    refNo number not null,
+    stepNo number not null,
+    levelNo number not null,
+    parentNo number not null,
+    hit number not null,
+    ip varchar2(50) not null,
+    memberNo number not null,
+    noticeNo number not null,
+    secretGubun varchar2(1) not null check (secretGubun in('T', 'F')),
+    regiDate date not null,
+    attachInfo clob not null,
+    primary key (no)
+)
+create sequence seq_board start with 1 increment by 1 nomaxvalue nocache;
