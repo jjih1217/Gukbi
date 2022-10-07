@@ -2,6 +2,8 @@ package com.jih.springStudy.member.model.dto;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberDTO {
 	private int no;
 	private String id;
@@ -20,7 +22,17 @@ public class MemberDTO {
 	
 	private String jumin1;
 	private String jumin2;
-
+	
+	private MultipartFile file;
+	
+	
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	
 	public String getJumin1() {
 		return jumin1;
 	}

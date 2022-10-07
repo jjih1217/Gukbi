@@ -30,11 +30,11 @@
 	</tr>
 	<tr>
 		<td>연락처 : </td>
-		<td><input type="text" name="phone"  value="${dto.phone }"></td>
+		<td><input type="text" name="phone" value="${dto.phone }"></td>
 	</tr>
 	<tr>
 		<td>이메일 : </td>
-		<td><input type="text" name="email"  value="${dto.email }"></td>
+		<td><input type="text" name="email" value="${dto.email }"></td>
 	</tr>
 	<tr>
 		<td>주민번호 : </td>
@@ -70,10 +70,25 @@
 			</c:if>
 		</td>
 	</tr>
+	
 	<tr>
 		<td>첨부파일</td>
 		<td>
-			<input type="file" name="attachInfo" value="-">
+			<c:choose>
+				<c:when test="${dto.attachInfo == '-' }">
+					이미지 없음
+					<br>
+					<input type="file" name="file" >
+				</c:when>
+				<c:otherwise>
+					<c:set var="tempArray1" value="${fn:split(dto.attachInfo, ',') }"></c:set>
+					<c:set var="temp1" value="${tempArray1[0]}"></c:set>
+					<c:set var="temp2" value="${tempArray1[1]}"></c:set>
+					<img src="${path }/attach${path}/member/${temp2}" alt="${tempArray1[0]}" title="${dto.name }" style="width: 50px; height: 50px">
+					
+					<input type="file" name="file" >
+				</c:otherwise>
+			</c:choose>
 		</td>
 	</tr>
 	<tr>
@@ -87,6 +102,7 @@
 <script>
 function save() {
 	if(confirm('저장할까요?')) {
+		document.DirForm.enctype="multipart/form-data";
 		document.DirForm.action = "${path}/member/sujungProc";
 		document.DirForm.method = "post";
 		document.DirForm.submit();

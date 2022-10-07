@@ -5,7 +5,9 @@
 <%@ include file = "_inc_top.jsp" %>
 
 <h2>방명록 목록(Mybatis)</h2>  
+
 <div style="width: 80%; margin-top: 10px;" align="left">
+
 	<c:choose>
 		<c:when test="${searchGubun == '' }">
 			* 전체목록 : ${totalRecord } 건

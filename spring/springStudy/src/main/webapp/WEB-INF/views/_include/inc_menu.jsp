@@ -1,6 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<div style="text-align: right">
+	<c:choose>
+		<c:when test="${sessionScope.sessionNo == null || sessionScope.sessionNo == ''}">
+			<a href="${path }/member/login">로그인</a>
+			<c:set var="imsiMemberNo" value="${imsiMemberNo = 0 }"></c:set>
+		</c:when>
+		<c:otherwise>
+			<a href="${path }/member/logout">로그아웃</a>
+			<c:set var="imsiMemberNo" value="${imsiMemberNo = sessionScope.sessionNo }"></c:set>
+		</c:otherwise>
+	</c:choose>
+	
+</div>
 |
 <a href="${path }">Home</a>
 |
@@ -27,6 +40,14 @@
 <br>
 |
 <a href="${path }/member/list">회원관리</a>
+|
+<a href="${path }/memo/list">메모장</a>
+|
+<a href="${path }/guestBook/list">방명록</a>
+|
+<a href="${path }/product/list">상품관리</a>
+|
+<a href="${path }/cart/list">장바구니</a>
 |
 
 <hr>

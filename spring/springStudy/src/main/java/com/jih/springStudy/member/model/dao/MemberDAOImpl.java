@@ -39,5 +39,15 @@ public class MemberDAOImpl implements MemberDAO{
 	public int setDelete(MemberDTO paramDto) {
 		return sqlSession.delete("member.setDelete", paramDto);
 	}
+
+	@Override
+	public int getLogin(MemberDTO paramDto) {
+		int result = 0;
+		if(sqlSession.selectOne("member.getLogin", paramDto) != null) {
+			result = sqlSession.selectOne("member.getLogin", paramDto);
+		}
+		
+		return result;
+	}
 	
 }

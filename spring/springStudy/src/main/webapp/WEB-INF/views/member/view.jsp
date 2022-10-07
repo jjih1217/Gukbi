@@ -51,6 +51,42 @@
 		<td>${dto.grade}</td>
 	</tr>
 	<tr>
+		<td>첨부파일</td>
+		<td>
+			
+			<%-- ${fn:replace(dto.attachInfo, '|', '<br>') }
+			<hr>
+			<c:set var="tempArray1" value="${fn:split(dto.attachInfo, '|')}"></c:set>
+			<c:forEach var="i" begin="0" end="${fn:length(tempArray1)- 1 }" step="1">
+				<c:choose>
+					<c:when test="${tempArray1[i] == ',,0,,' }">
+						<a href="#" onClick="suntaek('view','0','${dto.no}')">이미지X</a>
+					</c:when>
+					<c:otherwise>
+						<c:set var="tempArray2" value="${fn:split(tempArray1[i], ',') }"></c:set>
+						<c:set var="temp1" value="${tempArray2[0]}"></c:set>
+						<c:set var="temp2" value="${tempArray2[1]}"></c:set>
+						<a href="#" onClick="move('${dto.no}','${i }')">
+							<img src="${path }/attach${path}/member/${temp2}" alt="${dto.name }" title="${dto.name }" style="width: 50px; height: 50px">
+						</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>  --%>
+			
+			 <c:choose>
+				<c:when test="${dto.attachInfo == '-' }">
+					이미지 없음
+				</c:when>
+				<c:otherwise>
+					<c:set var="tempArray1" value="${fn:split(dto.attachInfo, ',') }"></c:set>
+					<c:set var="temp1" value="${tempArray1[0]}"></c:set>
+					<c:set var="temp2" value="${tempArray1[1]}"></c:set>
+					<img src="${path }/attach${path}/member/${temp2}" alt="${tempArray1[0]}" title="${dto.name }" style="width: 50px; height: 50px">
+				</c:otherwise>
+			</c:choose>
+		</td>
+	</tr>
+	<tr>
 		<td>등록일</td>
 		<td>${dto.regiDate}</td>
 	</tr>
@@ -62,6 +98,8 @@
 	<a href="#" onClick="move('list','');">목록</a>
 	|
 	<a href="#" onClick="move('chuga','');">등록</a>
+	|
+	<a href="#" onClick="move('chugaAttach','');">등록(attach)</a>
 	|
 	<a href="#" onClick="move('sujung','${dto.no}');">수정</a>
 	|

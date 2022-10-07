@@ -13,7 +13,6 @@
 <%@ include file = "../_include/inc_menu.jsp" %>
 
 <h2>${title}</h2>
-<form name="DirForm">
 <table border="1" width="60%">
 	<tr>
 		<th>순번</th>
@@ -45,7 +44,6 @@
 		</tr>
 	</c:forEach>
 </table>
-</form>
 <div style="border: 0px solid red; padding-top: 20px; width: 60%;" align="right">
 	|
 	<a href="${path }/member/list">전체목록</a>
@@ -53,6 +51,8 @@
 	<a href="#" onClick="move('list','');">목록</a>
 	|
 	<a href="#" onClick="move('chuga','');">등록</a>
+	|
+	<a href="#" onClick="move('chugaAttach','');">등록(Attach)</a>
 	|
 </div>
 

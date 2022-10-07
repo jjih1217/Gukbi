@@ -5,6 +5,7 @@
 <%@ include file = "_inc_top.jsp" %>
     
 <h2>메모(Mybatis)</h2>  
+<input type="text" value="${searchGubun}">
 <div style="width: 80%; margin-top: 10px;" align="left">
 	<c:choose>
 		<c:when test="${searchGubun == '' }">
@@ -14,7 +15,7 @@
 			* 검색어 "<b style="color:red;">${searchData }</b>" 으/로 검색된 목록 :  ${totalRecord } 건
 		</c:otherwise>
 	</c:choose>
-	(${pageNumber} / ${map.totalPage })
+	현재페이지 (${pageNumber} / ${map.totalPage })
 </div> 
 <table border="1" align="center" width="80%">
 	<tr>
