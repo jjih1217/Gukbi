@@ -77,7 +77,7 @@ public class MemberController {
 			searchQuery2 = "searchGubun=" + imsiSerchGubun + "&searchData=" + imsiSerchData;
 		}
 		
-		int pageSize = 1;
+		int pageSize = 10;
 		int blockSize = 10;
 		
 		int totalRecord = memberDao.getTotalRecord(arguDto);
