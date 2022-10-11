@@ -41,7 +41,6 @@ public class MemberDTO {
 	private int nxtNo;
 	private String nxtName;
 	
-	
 	public String getSearchGubun() {
 		return searchGubun;
 	}

@@ -74,7 +74,7 @@
 <div class="btn_area">
 
 	<a href="${path }/member/list" class="btn_clear">전체목록</a>
-	<a href="#" onClick="move('list','');" class="btn_clear">목록</a>
+	<!-- <a href="#" onClick="move('list','','');" class="btn_clear">목록</a> -->
 	<a href="#" onClick="move('chuga','');" class="btn_blue">등록</a>
 	<a href="#" onClick="move('sujung','${dto.no}');" class="btn_blue">수정</a>
 	<a href="#" onClick="move('sakje','${dto.no}');" class="btn_gray">삭제</a>
@@ -82,6 +82,6 @@
 
 <script>
 function move(value1, value2){
-	location.href="${path}/member/" + value1 + '?no=' + value2;
+	location.href="${path}/member/" + value1 + '?no=' + value2 + "&${searchQuery}";
 }
 </script>

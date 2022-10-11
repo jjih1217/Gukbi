@@ -44,7 +44,7 @@
 			</div>
 			<div class="form-group">
 				<a href="#" onClick="goSearch();" class="btn btn_search">검색</a>
-				<a href="#" onClick="" class="btn btn_reset">초기화</a>
+				<a href="#" onClick="goReset()" class="btn btn_reset">초기화</a>
 			</div>
 		</div>
 	</div>
@@ -107,47 +107,47 @@
 
 <div class="btn_area">
 	<a href="${path }/member/list" class="btn_gray">전체목록</a>
-	<a href="#" onClick="move('list','');" class="btn_gray">목록</a>
-	<!-- <a href="#" onClick="move('chuga','');" class="btn_red">등록</a> -->
+	<!-- <a href="#" onClick="move('list','');" class="btn_gray">목록</a> -->
 	<a href="#" onClick="move('chuga','');" class="btn_blue">등록(Attach)</a>
 </div>
 
 <div class="paging">
 <c:if test="${totalRecord > 0 }">
-	<div style="width: 80%; margin-top: 10px;" align="center">
-		<a href="#" onClick="goPage('1');">[첫페이지]</a>
-		&nbsp;
+	<div class="inner">
+		<a href="#" onClick="goPage('1');" class="btn-paging paging-on">첫페이지</a>
 		<c:if test="${map.startPage > map.blockSize }">
-			<a href="#" onClick="goPage('${map.startPage - map.blockSize}')">[이전10개]</a>
+			<a href="#" onClick="goPage('${map.startPage - map.blockSize}')" class="btn-paging paging-on">이전10개</a>
 		</c:if>
 		<c:if test="${map.startPage <= map.blockSize }">
-			[이전10개]
+			<span class="btn-paging">이전10개</span>
 		</c:if>
-		&nbsp;
-		<c:forEach var="i" begin="${map.startPage }" end="${map.lastPage }" step="1">
 		
-			<c:if test="${i == pageNumber }">
-				[${i }]
-			</c:if>
-			<c:if test="${i != pageNumber }">
-				<a href="#" onClick="goPage('${i }')">${i }</a>
-			</c:if>
-		</c:forEach>
-		&nbsp;
+		<div class="paging-number">
+			<c:forEach var="i" begin="${map.startPage }" end="${map.lastPage }" step="1">
+			
+				<c:if test="${i == pageNumber }">
+					<span class="btn-paging-number paging-number-on">
+					${i }
+					</span>
+				</c:if>
+				<c:if test="${i != pageNumber }">
+					<a href="#" onClick="goPage('${i }')" class="btn-paging-number ">${i }</a>
+				</c:if>
+			</c:forEach>
+		</div>
 		<c:if test="${map.lastPage < map.totalPage }">
-			<a href="#" OnClick="goPage('${map.startPage + map.blockSize }');">[다음10개]</a>
+			<a href="#" OnClick="goPage('${map.startPage + map.blockSize }');" class="btn-paging paging-on">다음10개</a>
 		</c:if>
 		<c:if test="${map.lastPage >= map.totalPage }">
-			[다음10개]
+			<span class="btn-paging">다음10개</span>
 		</c:if>
-		&nbsp;
-		<a href="#" onClick="goPage('${map.totalPage}');">[끝페이지]</a>
+		<a href="#" onClick="goPage('${map.totalPage}');" class="btn-paging paging-on">끝페이지</a>
 	</div>
 </c:if>
 </div>
 <script>
 function move(value1, value2){
-	location.href="${path}/member/" + value1 + '?no=' + value2;
+	location.href="${path}/member/" + value1 + '?no='  + value2 + "&${searchQuery}";
 }
 
 function goSearch() {
@@ -155,10 +155,13 @@ function goSearch() {
 		document.searchForm.action = "${path}/member/search";
 		document.searchForm.method = "post";
 		document.searchForm.submit();
-		
 	}
 }
 
+function goReset() {
+	document.searchForm.searchGubun.value = "";
+	document.searchForm.searchData.value= "";
+}
 function goPage (value1) {
 	location.href = "${path}/member/list?pageNumber=" + value1 + "&${searchQuery}";
 }

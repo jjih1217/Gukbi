@@ -17,8 +17,8 @@ public class MemoDAOImpl implements MemoDAO{
 	SqlSession sqlSession;
 	
 	@Override
-	public List<MemoDTO> getSelectAll() {
-		return sqlSession.selectList("memo.getSelectAll");
+	public List<MemoDTO> getSelectAll(MemoDTO paramDto) {
+		return sqlSession.selectList("memo.getSelectAll", paramDto);
 	}
 
 	@Override
@@ -40,5 +40,9 @@ public class MemoDAOImpl implements MemoDAO{
 	public int setDelete(MemoDTO paramDto) {
 		return sqlSession.delete("memo.setDelete", paramDto);
 	}
-
+	
+	@Override
+	public int getTotalRecord(MemoDTO paramDto) {
+		return sqlSession.selectOne("memo.getTotalRecord", paramDto);
+	}
 }

@@ -6,11 +6,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="guestBook">
 
 <select id="getSelectAll" resultType="com.jih.springPortfolio.guestBook.model.dto.GuestBookDTO">
-	select g.*,  m.no memberNo, m.Id memberId, m.name memberName
-	from guestBook g
-	left outer join member m
-	on(m.no = g.memberNo)
-	order by g.no desc
+	select * from (
+		select A.*, 
+		Rownum rnum from (select * from guestBook g left outer join member m on m.no = g.memberNo order by g.no desc) A)
+<![CDATA[
+	 where rnum >= #{startRecord} and rnum <= #{lastRecord}
+]]>
 </select>
 
 <select id="getSelectOne" resultType="com.jih.springPortfolio.guestBook.model.dto.GuestBookDTO">
@@ -28,6 +29,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{memberNo}
 	)
 </insert>
+
+<select id="getTotalRecord" resultType="int">
+	select count(*) from guestBook order by no desc
+</select>
 
 <update id="setUpdate">
 	update guestBook set

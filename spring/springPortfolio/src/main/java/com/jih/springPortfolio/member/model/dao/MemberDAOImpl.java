@@ -63,7 +63,7 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public int getTotalRecord(MemberDTO paramDto) {
-		return sqlSession.selectOne("member.getTotalRecord");
+		return sqlSession.selectOne("member.getTotalRecord", paramDto);
 	}
 
 }

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Spring Portfolio 조인혜</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet" type="text/css">
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css">

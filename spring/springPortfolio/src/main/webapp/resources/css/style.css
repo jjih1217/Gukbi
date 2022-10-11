@@ -51,7 +51,6 @@ h2.tit{
     color: #000;
     margin-bottom: 20px;
     position: relative;
-    /* display: inline-block; */
     text-align: center;
     font-weight: 600;
 }
@@ -70,7 +69,6 @@ h2.tit:after{
     width: 100%;
     background: #f1f4f9;
     padding: 1.5rem 6rem;
-    /* display: flex; */
     margin: 30px 0;
 }
 .searchBox .form-inline{
@@ -105,10 +103,6 @@ h2.tit:after{
     border: 1px solid #cdcdcd;
 }
 
-.boardInfo {
-}
-.boardInfo .info1{}
-.boardInfo .info2{}
 .boardInfo div{position: relative;padding-left: 10px;margin-bottom: 9px;}
 .boardInfo div:after{position: absolute; content:"";width: 3px;height: 3px;background: #7c7c7c;left: 0;top: 0;bottom: 0;margin: auto;}
 
@@ -284,7 +278,40 @@ h2.tit:after{
     width: 50%;
     height: 20rem;
 }
-.paging{}
+.paging{
+	
+}
+.paging .inner{
+	margin: 0 auto;
+	text-align: center;
+}
+.paging .inner .btn-paging{
+	padding: 5px 10px;
+	border-radius: 20px;
+	font-size: 0.9rem;
+	color: #b5b5b5;
+}
+.paging .inner .paging-on{
+	background: #eee;
+	color: #424242;
+}
+.paging .inner .paging-number {
+	display: inline-block;
+	margin: 0 23px;
+}
+.paging .inner .btn-paging-number{
+	margin: 0 13px;
+	font-size: 0.9rem;
+}
+.paging .inner .paging-number-on{
+	background: #5c5c5c;
+	height: 30px;
+	width: 30px;
+	display: inline-block;
+	line-height: 30px;
+	border-radius: 24px;
+	color: #fff;
+}
 .btn_area {
 	width: 100%;
     margin-top: 15px;
@@ -346,7 +373,6 @@ h2.tit:after{
 
 .col-blue{
 	color: #2f50bb;
-	
 }
 .bg_gray{}
 

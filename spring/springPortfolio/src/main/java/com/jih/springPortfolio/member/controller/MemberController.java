@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jih.springPortfolio._common.MultipartUpload;
+import com.jih.springPortfolio._common.Search;
 import com.jih.springPortfolio._common.Util;
 import com.jih.springPortfolio.member.model.dao.MemberDAO;
 import com.jih.springPortfolio.member.model.dto.MemberDTO;
@@ -33,7 +34,7 @@ public class MemberController {
 	String folderName= "member";
 	
 	Util util = new Util();
-			
+	Search search = new Search();		
 	// list ------------------------------------------------------------------------------------
 	@RequestMapping("/list")
 	public String list(
@@ -44,38 +45,14 @@ public class MemberController {
 		
 		String title = "회원목록";
 		
-		String searchGubun = arguDto.getSearchGubun();
-		String searchData = arguDto.getSearchData();
+		String searchGubun =  request.getParameter("searchGubun");
+		String searchData =  request.getParameter("searchData");
+		request.setAttribute("searchGubun", searchGubun);
+		request.setAttribute("searchData", searchData);
 		
-		model.addAttribute("searchGubun", searchGubun);
-		model.addAttribute("searchData", searchData);
-		
-		//페이징
 		String pageNumber_ = request.getParameter("pageNumber");
 		int pageNumber = util.getNumberCheck(pageNumber_, 1);
 		request.setAttribute("pageNumber", pageNumber);
-		
-
-		String imsiSearchYN = "O";
-		searchGubun = util.getNullBlankCheck(searchGubun);
-		searchData = util.getNullBlankCheck(searchData);
-		if(searchGubun.equals("") || searchData.equals("")) {
-			imsiSearchYN = "X";
-			searchGubun = "";
-			searchData = "";
-		}
-			
-		searchGubun = URLDecoder.decode(searchGubun,"UTF-8");
-		searchData = URLDecoder.decode(searchData,"UTF-8");
-
-		String searchQuery = "pageNumber=" + pageNumber + "&searchGubun=&searchData=";
-		String searchQuery2 = "searchGubun=&searchData=";
-		if(imsiSearchYN.equals("O")) {
-			String imsiSerchGubun = URLEncoder.encode(searchGubun,"UTF-8");
-			String imsiSerchData = URLEncoder.encode(searchData,"UTF-8");
-			searchQuery = "pageNumber=" + pageNumber + "&searchGubun=" + imsiSerchGubun + "&searchData=" + imsiSerchData;
-			searchQuery2 = "searchGubun=" + imsiSerchGubun + "&searchData=" + imsiSerchData;
-		}
 		
 		int pageSize = 10;
 		int blockSize = 10;
@@ -83,6 +60,8 @@ public class MemberController {
 		int totalRecord = memberDao.getTotalRecord(arguDto);
 		model.addAttribute("totalRecord", totalRecord);
 		
+		String searchQuery = search.getSerchInfo(pageNumber, searchGubun, searchData);
+		request.setAttribute("searchQuery", searchQuery);
 		
 		Map<String, Integer> map = util.getPagerMap(pageNumber, pageSize, blockSize, totalRecord);
 		map.put("blockSize", blockSize);
@@ -91,7 +70,6 @@ public class MemberController {
 		
 		arguDto.setStartRecord(map.get("startRecord"));
 		arguDto.setLastRecord(map.get("lastRecord"));
-		
 		
 		model.addAttribute("map", map);
 
@@ -109,6 +87,7 @@ public class MemberController {
 		@RequestMapping("/view")
 		public String view(
 				Model model,
+				HttpServletRequest request,
 				@ModelAttribute MemberDTO arguDto
 			) {
 			MemberDTO returnDto = memberDao.getSelectOne(arguDto);
@@ -348,10 +327,23 @@ public class MemberController {
 		@RequestMapping("/search")
 		public String search(
 				Model model,
+				HttpServletRequest request,
 				@ModelAttribute MemberDTO arguDto
-			) {
+			) throws UnsupportedEncodingException {
 			
-			return "redirect:/member/list?searchGubun=" + arguDto.getSearchGubun() + "&searchData=" + arguDto.getSearchData();
+			String searchGubun =  request.getParameter("searchGubun");
+			String searchData =  request.getParameter("searchData");
+			request.setAttribute("searchGubun", searchGubun);
+			request.setAttribute("searchData", searchData);
+			
+			String pageNumber_ = request.getParameter("pageNumber");
+			int pageNumber = util.getNumberCheck(pageNumber_, 1);
+			request.setAttribute("pageNumber", pageNumber);
+			
+			String searchQuery = search.getSerchInfo(pageNumber, searchGubun, searchData);
+			request.setAttribute("searchQuery", searchQuery);
+			
+			return "redirect:/member/list?" + searchQuery;
 			
 		}
 }

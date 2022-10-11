@@ -1,6 +1,8 @@
 package com.jih.springPortfolio.guestBook.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.jih.springPortfolio._common.Search;
+import com.jih.springPortfolio._common.Util;
 import com.jih.springPortfolio.guestBook.model.dao.GuestBookDAO;
 import com.jih.springPortfolio.guestBook.model.dto.GuestBookDTO;
 
@@ -23,13 +27,40 @@ public class GuestBookController {
 	
 	String folderName= "guestBook";
 	
+	Util util = new Util();
+	Search search = new Search();	
+	
+	// ------------------------------------------------------------------------------------
 	@RequestMapping("/list")
 	public String list(
-			Model model
-			) {
+			Model model,
+			@ModelAttribute GuestBookDTO arguDto,
+			HttpServletRequest request
+			) throws UnsupportedEncodingException {
 		
 		String title = "방명록 목록";
-		List<GuestBookDTO> list = guestBookDao.getSelectAll();
+		
+		String pageNumber_ = request.getParameter("pageNumber");
+		int pageNumber = util.getNumberCheck(pageNumber_, 1);
+		request.setAttribute("pageNumber", pageNumber);
+		
+		int pageSize = 3;
+		int blockSize = 10;
+		
+		int totalRecord = guestBookDao.getTotalRecord(arguDto);
+		model.addAttribute("totalRecord", totalRecord);
+		
+		
+		Map<String, Integer> map = util.getPagerMap(pageNumber, pageSize, blockSize, totalRecord);
+		map.put("blockSize", blockSize);
+		
+		request.setAttribute("map", map);
+		
+		arguDto.setStartRecord(map.get("startRecord"));
+		arguDto.setLastRecord(map.get("lastRecord"));
+		
+		model.addAttribute("map", map);
+		List<GuestBookDTO> list = guestBookDao.getSelectAll(arguDto);
 		
 		model.addAttribute("title", title);
 		model.addAttribute("list", list);
