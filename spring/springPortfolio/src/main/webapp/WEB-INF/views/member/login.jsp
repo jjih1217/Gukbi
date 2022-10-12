@@ -3,29 +3,21 @@
 
 <%@ include file = "../_include/inc_header.jsp" %>
 
-
-
-<h2>${title}</h2>
-<form name="DirForm">
-<div class="loginForm">
-<table border="1" width="30%">
-	<tr>
-		<td>아이디 : </td>
-		<td><input type="text" name="id"></td>
-	</tr>
-	<tr>
-		<td>비밀번호 :</td>
-		<td><input type="password" name="passwd"></td>
-	</tr>
-	<tr>
-		<td colspan="2" align="center">
-			<button type="button" Onclick="save();">로그인</button>
-		</td>
-	</tr>
-</table>
+<div class="member-login">
+	<div class="box-title">
+		<h3>${title}</h3>
+		<p>로그인하시면 게시판의 서비스를 이용하실 수 있습니다.</p>
+	</div>
+	<div class="inner-box">
+		<form name="DirForm">
+			<div class="loginForm">
+				<input type="text" name="id" class="input-id input-login"></td>
+				<input type="password" name="passwd" class="input-pw input-login">
+				<button type="button" Onclick="save();" class="btn-login">로그인</button>
+			</div>
+		</form>
+	</div>
 </div>
-</form>
-
 <script>
 function save() {
 	if(confirm('로그인할까요?')) {

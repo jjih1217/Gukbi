@@ -217,7 +217,7 @@ public class BoardController extends HttpServlet {
 			
 			
 			BoardDTO arguDto = new BoardDTO();
-			arguDto.
+			
 			
 			
 		} else if(fileName.equals("sujungProc")) {

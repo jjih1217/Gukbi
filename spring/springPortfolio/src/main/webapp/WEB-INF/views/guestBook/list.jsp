@@ -30,7 +30,7 @@
 					</div>
 					
 					<c:if test="${sessionScope.sessionNo != null && sessionScope.sessionNo == '23' && sessionScope.sessionId == 'admin'}">
-						<div>
+						<div class="only-admin">
 							<span class="tit">로그인여부</span>
 							<c:if test="${ guestBookDto.memberNo == '0'}">
 								비회원
