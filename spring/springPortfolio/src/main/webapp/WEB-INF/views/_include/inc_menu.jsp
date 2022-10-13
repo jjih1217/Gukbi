@@ -30,18 +30,18 @@
  			<li id="member">
  				<a href="${path }/member/list">회원관리</a>
  			</li>
- 			<li id="memo">
+ 			<%-- <li id="memo">
  				<a href="${path }/memo/list">메모장</a>
- 			</li>
+ 			</li> --%>
  			<li id="guestBook">
  				<a href="${path }/guestBook/list">방명록</a>
  			</li>
- 			<li id="board">
+ 			<li id="board_Freeboard">
  				<a href="${path }/board/list">게시판</a>
  			</li>
- 			<li id="boardChk">
+ 			<%-- <li id="boardChk">
  				<a href="${path }/boardChk/list">게시판관리</a>
- 			</li>
+ 			</li> --%>
  			<li id="shopProduct">
  				<a href="${path }/shopProduct/list">상품관리</a>
  			</li>

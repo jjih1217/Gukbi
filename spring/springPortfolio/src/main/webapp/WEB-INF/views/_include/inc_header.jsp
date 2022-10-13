@@ -1,3 +1,4 @@
+<%@page import="java.net.Inet4Address"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -14,3 +15,10 @@
 
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
+<%
+	String referer = request.getHeader("REFERER");
+	String url = request.getRequestURL().toString();
+	String uri = request.getRequestURI().toString();
+	String path = request.getContextPath();
+	String ip = Inet4Address.getLocalHost().getHostAddress(); //import java.net.Inet4Address
+%>

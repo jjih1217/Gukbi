@@ -5,35 +5,35 @@
 
 <h2 class="tit">${title}</h2>
 <form name="searchForm">
-	<div class="searchBox">
+	<div class="searchBox form-box">
 		<div class="form-inline">
 			<div class="form-group">
 				<label for="searchGubun">구분</label>
 				<select name="searchGubun" id="searchGubun">
 					<c:choose>
-						<c:when test="${searchGubun == 'id' }">
+						<c:when test="${searchGubun == 'subject' }">
 							<option value="">-- 선택 --</option>
-							<option value="id" selected>아이디</option>
-							<option value="name">이름</option>
-							<option value="id_name">아이디 또는 이름</option>
+							<option value="subject" selected>제목</option>
+							<option value="writer">작성자</option>
+							<option value="subject_writer">제목 또는 작성자</option>
 						</c:when>
-						<c:when test="${searchGubun == 'name' }">
+						<c:when test="${searchGubun == 'writer' }">
 							<option value="">-- 선택 --</option>
-							<option value="id">아이디</option>
-							<option value="name" selected>이름</option>
-							<option value="id_name">아이디 또는 이름</option>
+							<option value="subject">제목</option>
+							<option value="writer" selected>작성자</option>
+							<option value="subject_writer">제목 또는 작성자</option>
 						</c:when>
-						<c:when test="${searchGubun == 'id_name' }">
+						<c:when test="${searchGubun == 'subject_writer' }">
 							<option value="" >-- 선택 --</option>
-							<option value="id">아이디</option>
-							<option value="name">이름</option>
-							<option value="id_name" selected>아이디 또는 이름</option>
+							<option value="subject">제목</option>
+							<option value="writer">작성자</option>
+							<option value="subject_writer" selected>제목 또는 작성자</option>
 						</c:when>
 						<c:otherwise>
 							<option value="" selected>-- 선택 --</option>
-							<option value="id">아이디</option>
-							<option value="name">이름</option>
-							<option value="id_name">아이디 또는 이름</option>
+							<option value="subject">제목</option>
+							<option value="writer">작성자</option>
+							<option value="subject_writer">제목 또는 작성자</option>
 						</c:otherwise>
 					</c:choose>
 				</select>
@@ -75,12 +75,23 @@
 
 <div class="board">
 	<div class="board_list_head">
-		<div class="col-20">순번</div>
-		<div class="col-20">아이디</div>
-		<div class="col-20">이름</div>
-		<div class="col-20">연락처</div>
-	<!-- 	<div class="col-20">주민번호</div> -->
-		<div class="col-20">가입일</div>
+		<div class="col-5">no</div>
+		<div class="col-5">num</div>
+		<div class="col-30">제목</div>
+		<div class="col-10">작성자</div>
+		<div class="col-10">작성일</div>
+		<div class="col-5">조회수</div>
+		
+		<div class="col-5">refNo</div>
+		<div class="col-5">stepNo</div>
+		<div class="col-5">levelNo</div>
+		<div class="col-5">parentNo</div>
+		
+		<div class="col-5">memberNo</div>
+		<div class="col-5">ip</div>
+		<div class="col-5">공지글</div>
+		<div class="col-5">비밀글</div>
+	
 	</div>
 	<div class="board_list_body">
 		<c:if test="${list.size() == 0 }">
@@ -89,17 +100,42 @@
 			</div>
 		</c:if>
 		
-		<c:forEach var="memberDto" items="${list }">
+		<c:forEach var="dto" items="${list }">
 			<div class="item">
-				<div class="col-20">${memberDto.no }</div>
-				<div class="col-20"><a href="#" onClick="move('view','${memberDto.no}')">${memberDto.id}</a></div>
-				<div class="col-20">${memberDto.name}</div>
-				<div class="col-20">
-					${fn:substring(memberDto.phone, 0, 3)} - 
-					${fn:substring(memberDto.phone, 3, 7)} - 
-					${fn:substring(memberDto.phone, 7, 11)}
+				<div class="col-5">${dto.no }</div>
+				<div class="col-5">${dto.num }</div>
+				<div class="col-30 al-left">
+				
+					
+					<% 
+						String blankValue = "";
+						for (int k=2; k<=dto.getStepNo(); k++) { // 1 --> 새글
+							blankValue += "&nbsp;&nbsp;";
+						}
+						
+						int imsiLength = 3;
+						String imsiSubject = dto.getSubject();
+						if(imsiSubject.length() > imsiLength) {
+							imsiSubject = imsiSubject.substring(0, imsiLength) + "...";
+						}
+						
+						if(dto.getStepNo() > 1) {
+							imsiSubject = "[Re]: " + imsiSubject;
+						}
+					%>
+				<%=blankValue %> <a href="#" onClick="move('view','${dto.no}')">${dto.subject }</a>
 				</div>
-				<div class="col-20">${memberDto.regiDate}</div>
+				<div class="col-10">${dto.writer }</div>
+				<div class="col-10">${dto.regiDate }</div>
+				<div class="col-5">${dto.hit }</div>
+				<div class="col-5">${dto.refNo }</div>
+				<div class="col-5">${dto.stepNo }</div>
+				<div class="col-5">${dto.levelNo }</div>
+				<div class="col-5">${dto.parentNo }</div>
+				<div class="col-5">${dto.memberNo }</div>
+				<div class="col-5">${dto.ip }</div>
+				<div class="col-5">${dto.noticeNo }</div>
+				<div class="col-5">${dto.secretGubun }</div>
 			</div>
 		</c:forEach>
 	</div>
@@ -147,12 +183,12 @@
 </div>
 <script>
 function move(value1, value2){
-	location.href="${path}/member/" + value1 + '?no='  + value2 + "&${searchQuery}";
+	location.href="${path}/board/" + value1 + '?no='  + value2 + "&${searchQuery}";
 }
 
 function goSearch() {
 	if(confirm('검색하시겠습니까?')){
-		document.searchForm.action = "${path}/member/search";
+		document.searchForm.action = "${path}/board/search";
 		document.searchForm.method = "post";
 		document.searchForm.submit();
 	}
@@ -163,6 +199,6 @@ function goReset() {
 	document.searchForm.searchData.value= "";
 }
 function goPage (value1) {
-	location.href = "${path}/member/list?pageNumber=" + value1 + "&${searchQuery}";
+	location.href = "${path}/board/list?pageNumber=" + value1 + "&${searchQuery}";
 }
 </script>

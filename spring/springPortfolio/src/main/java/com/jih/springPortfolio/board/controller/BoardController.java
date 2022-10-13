@@ -35,22 +35,21 @@ public class BoardController {
 	Search search = new Search();	
 	
 	
-	
 	// list ------------------------------------------------------------------------------------
 	@RequestMapping("/list")
 	public String list(
 			Model model,
 			@ModelAttribute BoardDTO arguDto,
 			HttpServletRequest request
-			) throws UnsupportedEncodingException {
+			) {
 		
-		String title = "방명록 목록";
+		String title = "게시판 목록";
 		
 		String pageNumber_ = request.getParameter("pageNumber");
 		int pageNumber = util.getNumberCheck(pageNumber_, 1);
 		request.setAttribute("pageNumber", pageNumber);
 		
-		int pageSize = 3;
+		int pageSize = 10;
 		int blockSize = 10;
 		
 		int totalRecord = boardDao.getTotalRecord(arguDto);
@@ -62,10 +61,10 @@ public class BoardController {
 		
 		request.setAttribute("map", map);
 		
-		/*
-		 * arguDto.setStartRecord(map.get("startRecord"));
-		 * arguDto.setLastRecord(map.get("lastRecord"));
-		 */
+		
+		arguDto.setStartRecord(map.get("startRecord"));
+		arguDto.setLastRecord(map.get("lastRecord"));
+		
 		
 		model.addAttribute("map", map);
 		List<BoardDTO> list = boardDao.getSelectAll(arguDto);
@@ -80,26 +79,34 @@ public class BoardController {
 	// view ------------------------------------------------------------------------------------
 	@RequestMapping("/view")
 	public String view(
-		Model model,
-		@ModelAttribute BoardDTO arguDto
+			Model model,
+			HttpServletRequest request,
+			@ModelAttribute BoardDTO arguDto
 		) {
-	
-	String title = "방명록 상세보기";
-	BoardDTO returnDto = boardDao.getSelectOne(arguDto);
-	
-	model.addAttribute("folderName", folderName);
-	model.addAttribute("fileName", "view");
-	return "main/main";
+		BoardDTO returnDto = boardDao.getSelectOne(arguDto);
+		
+		String title = "게시판 상세보기";
+		
+		model.addAttribute("title", title);
+		model.addAttribute("dto", returnDto);
+		
+		model.addAttribute("folderName", folderName);
+		model.addAttribute("fileName", "view");
+		return "main/main";
 	}
 	
 	// chuga ------------------------------------------------------------------------------------
 	@RequestMapping("/chuga")
 	public String chuga(
-		Model model
+		Model model,
+		@ModelAttribute BoardDTO arguDto
 		) {
 	
 		String title = "게시판 추가";
+		BoardDTO returnDto = boardDao.getSelectOne(arguDto);
+		
 		model.addAttribute("title", title);
+		model.addAttribute("dto", returnDto);
 		
 		model.addAttribute("folderName", folderName);
 		model.addAttribute("fileName", "chuga");
@@ -116,27 +123,32 @@ public class BoardController {
 			@RequestParam("file") List<MultipartFile> multiFileList
 		) {
 		
-		String tbl = "-";
+		
 		String noticeGubun = request.getParameter("noticeGubun");
 		String secretGubun = request.getParameter("secretGubun");
 		
 		String email = arguDto.getEmail1() + arguDto.getEmail2();
 		arguDto.setEmail(email);
-				
-		int num = boardDao.getMaxNumRefNo("num") + 1;
+		
+		int num = boardDao.getMaxNumRefNoNoticeNo("num") + 1;
 		arguDto.setNum(num);
 		
+		String tbl = "-";
+		arguDto.setTbl(tbl);
+		
+		String ip = "-";
+		arguDto.setIp(ip);
+		
 		//새글
-		int refNo = boardDao.getMaxNumRefNo("refNo") + 1;
+		int refNo = boardDao.getMaxNumRefNoNoticeNo("refNo") + 1;
 		int stepNo = 1;
 		int levelNo = 1;
 		int parentNo = 0;
 		
 		if(arguDto.getNo() > 0) { //답변글
-			
 			BoardDTO returnDto = boardDao.getSelectOne(arguDto);
 			
-			boardDao.setUpdateRelevel(returnDto);
+			boardDao.setUpdateRelevel(returnDto); //DB에서 읽어온 값을 매개변수로
 			//부모글의 levelNo보다 큰 levelNo들은 1씩 증가
 			refNo = returnDto.getRefNo(); //부모글의 refNo
 			stepNo = returnDto.getStepNo() + 1; //부모글의 stepNo + 1
@@ -144,7 +156,13 @@ public class BoardController {
 			parentNo = returnDto.getNo();
 		}
 		
+		arguDto.setRefNo(refNo);
+		arguDto.setStepNo(stepNo);
+		arguDto.setLevelNo(levelNo);
+		arguDto.setParentNo(parentNo);
+		
 		int hit = 0;
+		arguDto.setHit(hit);
 		
 		//로그인
 		String[] sessionArray = util.getSessionCheck(request);
@@ -153,11 +171,13 @@ public class BoardController {
 		String sessionName = sessionArray[2];
 		
 		int memberNo = sessionNo;
+		arguDto.setMemberNo(memberNo);
 		
 		int noticeNo = 0;
 		if(noticeGubun.equals("T")) { //공지글이면
-			noticeNo = boardDao.getMaxNumRefNo("noticeNo") + 1;	
+			noticeNo = boardDao.getMaxNumRefNoNoticeNo("noticeNo") + 1;	
 		}
+		arguDto.setNoticeNo(noticeNo);
 		
 		MultipartUpload mu = new MultipartUpload();
 		List<String> list = mu.attachProc(multiFileList, "/springPortfolio/board");
@@ -169,12 +189,13 @@ public class BoardController {
 		attachInfo = attachInfo.substring(1);
 		arguDto.setAttachInfo(attachInfo);
 		
+		
 		int result = boardDao.setInsert(arguDto);
 		
 		if(result > 0) {
-			return "redirect:/member/list";
+			return "redirect:/board/list";
 		} else {
-			return "redirect:/member/chugaAttach";
+			return "redirect:/board/chuga";
 		}
 	}
 		
@@ -185,7 +206,7 @@ public class BoardController {
 		@ModelAttribute BoardDTO arguDto
 		) {
 	
-		String title = "방명록 수정";
+		String title = "게시판 수정";
 		BoardDTO returnDto = boardDao.getSelectOne(arguDto);
 		
 		model.addAttribute("title", title);
@@ -222,7 +243,7 @@ public class BoardController {
 		@ModelAttribute BoardDTO arguDto
 		) {
 	
-		String title = "방명록 삭제";
+		String title = "게시판 삭제";
 		BoardDTO returnDto = boardDao.getSelectOne(arguDto);
 		
 		model.addAttribute("title", title);

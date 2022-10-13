@@ -5,6 +5,7 @@
 
 <h2 class="tit">${title}</h2>
 <form name="DirForm">
+	<input type="text" name="no" value="${dto.no }">
 	<div class="board">
 		<div class="board_write_head">
 			<div class="col">
@@ -65,7 +66,7 @@
 </form>
 
 <div class="btn_area">
-	<a href="${path }/member/list" class="btn_gray">전체목록</a>
+	<a href="${path }/board/list" class="btn_gray">전체목록</a>
 	<a href="#" onClick="save();" class="btn_blue">저장하기</a>
 </div>
 

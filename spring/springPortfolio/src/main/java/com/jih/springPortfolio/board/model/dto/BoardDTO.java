@@ -26,7 +26,66 @@ public class BoardDTO {
 	private String email1;
 	private String email2;
 	
+	private String searchGubun;
+	private String searchData;
 	
+	private int preNo;
+	private String preSubject;
+	private int nxtNo;
+	private String nxtSubject;
+	
+	private int startRecord;
+	private int lastRecord;
+	
+	
+	public String getSearchGubun() {
+		return searchGubun;
+	}
+	public void setSearchGubun(String searchGubun) {
+		this.searchGubun = searchGubun;
+	}
+	public String getSearchData() {
+		return searchData;
+	}
+	public void setSearchData(String searchData) {
+		this.searchData = searchData;
+	}
+	public int getPreNo() {
+		return preNo;
+	}
+	public void setPreNo(int preNo) {
+		this.preNo = preNo;
+	}
+	public String getPreSubject() {
+		return preSubject;
+	}
+	public void setPreSubject(String preSubject) {
+		this.preSubject = preSubject;
+	}
+	public int getNxtNo() {
+		return nxtNo;
+	}
+	public void setNxtNo(int nxtNo) {
+		this.nxtNo = nxtNo;
+	}
+	public String getNxtSubject() {
+		return nxtSubject;
+	}
+	public void setNxtSubject(String nxtSubject) {
+		this.nxtSubject = nxtSubject;
+	}
+	public int getStartRecord() {
+		return startRecord;
+	}
+	public void setStartRecord(int startRecord) {
+		this.startRecord = startRecord;
+	}
+	public int getLastRecord() {
+		return lastRecord;
+	}
+	public void setLastRecord(int lastRecord) {
+		this.lastRecord = lastRecord;
+	}
 	public String getEmail1() {
 		return email1;
 	}

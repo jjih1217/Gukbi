@@ -65,41 +65,54 @@ h2.tit:after{
 	opacity: 0.2;
 }
 
-.searchBox {
+.form-box {
     width: 100%;
     background: #f1f4f9;
     padding: 1.5rem 6rem;
     margin: 30px 0;
     border: 1px solid #eee;
 }
-.searchBox .form-inline{
+.form-box .form-inline{
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-evenly;
 }
 
-.searchBox .form-inline .form-group{}
-.searchBox .form-inline .form-group label{font-size: 0.9rem;padding-right: 15px;}
-.searchBox .form-inline .form-group select{
+.form-box {
+	
+}
+.form-box .form-inline{
+	
+}
+.form-box .form-inline .form-group{
+	
+}
+
+
+.form-box .form-inline .form-group label{font-size: 0.9rem;padding-right: 15px;}
+.form-box .form-inline .form-group select{
 	border: 1px solid #d7d7d7;
     padding: 7px 10px;
 }
-.searchBox .form-inline .form-group input{
+.form-box .form-inline .form-group input{
 	padding: 10px;
 	width: 33rem;
 }
-.searchBox .form-inline .form-group .btn{
+.chugaBox .form-inline .form-group input{
+	width: 15rem;
+}
+.form-box .form-inline .form-group .btn{
     height: 100%;
     display: inline-block;
     width: 80px;
     text-align: center;
     line-height: 36px;
 }
-.searchBox .form-inline .form-group .btn.btn_search{
+.form-box .form-inline .form-group .btn.btn_search{
     background: #203c6a;
     color: #fff;
 }
-.searchBox .form-inline .form-group .btn.btn_reset{
+.form-box .form-inline .form-group .btn.btn_reset{
     background: #fff;
     border: 1px solid #cdcdcd;
 }
@@ -189,6 +202,42 @@ h2.tit:after{
     right: 0;
     bottom: 0;
     transform: translate(50%, 50%);
+}
+
+.board_view_bottom {
+   
+margin: 2rem 0;
+   
+border-top: 1px solid #d7d7d7;
+}
+
+.board_view_bottom .col-group{
+   
+display: flex;
+   
+border-bottom: 1px solid #d7d7d7;
+}
+.board_view_bottom .col-group .col1{
+   
+border-right: 1px solid #d7d7d7;
+   
+padding: 15px;
+   
+width: 13rem;
+   
+background: #f3f3f3;
+}
+
+.board_view_bottom .col-group .col2{
+   
+padding: 15px;
+}
+
+.board_view_bottom .col-group .col2 a{
+   
+color: #2d4cb2;
+   
+font-weight: 500;
 }
 
 .board .board_guest_body {}
@@ -391,7 +440,7 @@ footer{
 }
 
 input { border: 0; box-shadow: 0;}
-.al-left{text-align: left}
+.al-left{text-align: left !important;}
 .member-login {
 	border: 1px solid #d7d7d7;
 	text-align: center;

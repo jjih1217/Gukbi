@@ -5,7 +5,7 @@
 
 <h2 class="tit">${title}</h2>
 <form name="searchForm">
-	<div class="searchBox">
+	<div class="searchBox form-box">
 		<div class="form-inline">
 			<div class="form-group">
 				<label for="searchGubun">구분</label>

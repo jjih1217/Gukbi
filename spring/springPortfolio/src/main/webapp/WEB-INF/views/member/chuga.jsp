@@ -55,8 +55,8 @@
 			<div class="col">
 				<div class="colTit">주민번호</div>
 				<div class="colCnt">
-					<input type="text" name="jumin1" class="col-15"> -
-					<input type="text" name="jumin2" class="col-15">
+					<input type="text" name="jumin1" class="col-40"> -
+					<input type="text" name="jumin2" class="col-40">
 				</div>
 			</div>
 			<div class="col">

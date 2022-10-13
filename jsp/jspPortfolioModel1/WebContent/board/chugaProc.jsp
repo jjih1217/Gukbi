@@ -50,7 +50,6 @@
 	
 	
 	int hit = 0;
-	
 	//String ip = "";
 	int memberNo = sessionNo;
 	

@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="board">
 <sql id="search">
 	<choose>
-		<when test="searchGubun == 'id_name' ">
-			and (id like '%' || #{searchData} || '%' or name like '%' || #{searchData} || '%')
+		<when test="searchGubun == 'subject_writer' ">
+			and (subject like '%' || #{searchData} || '%' or writer like '%' || #{searchData} || '%')
 		</when>
 		<when test="searchGubun != null and searchGubun != '' and searchData != null and searchData != ''">
 			and (${searchGubun} like '%' || #{searchData} || '%')
@@ -19,6 +19,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="getSelectAll" resultType="com.jih.springPortfolio.board.model.dto.BoardDTO">
 
+	<!-- 
+	
 	select * from (select A.*, Rownum rnum from (
 		select * from board where 1 = 1
 		<include refid="search"></include>
@@ -26,7 +28,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by no desc
 		
 	) A) where rnum >= #{startRecord} and rnum <= #{lastRecord}
-]]>
+]]> 
+
+-->
+	select * from (select A.*, Rownum rnum from (
+	
+		select * from board where 1 = 1
+		<include refid="search"></include>
+		order by noticeNo desc, refNo desc, levelNo asc
+		
+<![CDATA[
+	) A) where rnum >= #{startRecord} and rnum <= #{lastRecord}
+]]> 
 
 </select>
 
@@ -35,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="search"></include>
 </select>
 
-<select id="getMaxNumRefNo" resultType="int">
+<select id="getMaxNumRefNoNoticeNo" resultType="int">
 	select nvl(max(${gubun}),0) maxValue from board
 </select>
 
@@ -47,7 +60,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 
 <select id="getSelectOne" resultType="com.jih.springPortfolio.board.model.dto.BoardDTO">
-	select * from member board no = #{no}
+	<!-- select * from board where no = #{no} -->
+	  select * from ( select b.*, 
+					  LAG(no) OVER (order by noticeNo desc, refNo desc, levelNo asc) preNo,
+					  LAG(subject) OVER (order by noticeNo desc, refNo desc, levelNo asc) preSubject,
+					  LEAD(no) OVER (order by noticeNo desc, refNo desc, levelNo asc) nxtNo,
+					  LEAD(subject) OVER (order by noticeNo desc, refNo desc, levelNo asc) nxtSubject 
+		   			  from board b where 1 = 1
+		   			  <include refid="search"></include>
+		   			  order by noticeNo desc, refNo desc, levelNo asc
+		    		) 
+	  where no = #{no}
 </select>
 
 <insert id="setInsert">

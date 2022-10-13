@@ -13,8 +13,8 @@
 	<table border="0" align="left">
 		<tr>
 			<td>
-				<input type="hidden" name="procGubun" id="procGubun" value="chugaProc"><br>
-				<input type="hidden" name="boardChkNo" id="boardChkNo"><br>
+				<input type="text" name="procGubun" id="procGubun" value="chugaProc"><br>
+				<input type="text" name="boardChkNo" id="boardChkNo"><br>
 				tbl: <input type="text" name="tbl" id="tbl">
 				tblName : <input type="text" name="tblName" id="tblName">
 				<button type="button" Onclick="save();" id="btnSave">확인</button>

@@ -47,8 +47,8 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public int getMaxNumRefNo(String gubun) {
-		return sqlSession.selectOne("board.getMaxNumRefNo", gubun);
+	public int getMaxNumRefNoNoticeNo(String gubun) {
+		return sqlSession.selectOne("board.getMaxNumRefNoNoticeNo", gubun);
 	}
 
 	@Override

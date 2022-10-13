@@ -115,7 +115,6 @@ public class MemberController {
 			return "main/main";
 		}
 		
-		
 		// chugaAttachProc ------------------------------------------------------------------------------------
 		@RequestMapping("/chugaAttachProc")
 		public String chugaAttach(
