@@ -49,6 +49,9 @@
 |
 <a href="${path }/cart/list">장바구니</a>
 |
+<br>
+<a href="${path }/memberNew/list">회원관리(new)</a>
+|
 
 <hr>
 <!-- controller -> (service) -> DAO -> mapper -->

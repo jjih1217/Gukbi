@@ -5,7 +5,9 @@
 
 <h2 class="tit">${title}</h2>
 <form name="DirForm">
-	<input type="text" name="no" value="${dto.no }">
+	<c:if test="${dto.no > 0 }">
+		<input type="text" name="no" value="${dto.no }">
+	</c:if>
 	<div class="board">
 		<div class="board_write_head">
 			<div class="col">
@@ -81,4 +83,3 @@ function save() {
 	}
 }
 </script>
-

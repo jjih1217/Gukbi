@@ -100,13 +100,19 @@
 			</div>
 		</c:if>
 		
-		<c:forEach var="dto" items="${list }">
+		<c:forEach var="boardDto" items="${list }">
 			<div class="item">
-				<div class="col-5">${dto.no }</div>
-				<div class="col-5">${dto.num }</div>
+				<div class="col-5">${boardDto.no }</div>
+				<div class="col-5">${boardDto.num }</div>
 				<div class="col-30 al-left">
-				
+				<c:foreach var="blankValue" begin="2" end="${dto.getStepNo() }" step="1">
+					&nbsp;&nbsp;
+				</c:foreach>
+				<c:if test="${dto.getStepNo() > 1 }">
+					[re]:
+				</c:if>
 					
+					<%-- 
 					<% 
 						String blankValue = "";
 						for (int k=2; k<=dto.getStepNo(); k++) { // 1 --> 새글
@@ -123,19 +129,21 @@
 							imsiSubject = "[Re]: " + imsiSubject;
 						}
 					%>
-				<%=blankValue %> <a href="#" onClick="move('view','${dto.no}')">${dto.subject }</a>
+				<%=blankValue %>  --%>
+				
+				<a href="#" onClick="move('view','${boardDto.no}')">${boardDto.subject }</a>
 				</div>
-				<div class="col-10">${dto.writer }</div>
-				<div class="col-10">${dto.regiDate }</div>
-				<div class="col-5">${dto.hit }</div>
-				<div class="col-5">${dto.refNo }</div>
-				<div class="col-5">${dto.stepNo }</div>
-				<div class="col-5">${dto.levelNo }</div>
-				<div class="col-5">${dto.parentNo }</div>
-				<div class="col-5">${dto.memberNo }</div>
-				<div class="col-5">${dto.ip }</div>
-				<div class="col-5">${dto.noticeNo }</div>
-				<div class="col-5">${dto.secretGubun }</div>
+				<div class="col-10">${boardDto.writer }</div>
+				<div class="col-10">${boardDto.regiDate }</div>
+				<div class="col-5">${boardDto.hit }</div>
+				<div class="col-5">${boardDto.refNo }</div>
+				<div class="col-5">${boardDto.stepNo }</div>
+				<div class="col-5">${boardDto.levelNo }</div>
+				<div class="col-5">${boardDto.parentNo }</div>
+				<div class="col-5">${boardDto.memberNo }</div>
+				<div class="col-5">${boardDto.ip }</div>
+				<div class="col-5">${boardDto.noticeNo }</div>
+				<div class="col-5">${boardDto.secretGubun }</div>
 			</div>
 		</c:forEach>
 	</div>
@@ -144,7 +152,7 @@
 <div class="btn_area">
 	<a href="${path }/member/list" class="btn_gray">전체목록</a>
 	<!-- <a href="#" onClick="move('list','');" class="btn_gray">목록</a> -->
-	<a href="#" onClick="move('chuga','');" class="btn_blue">등록(Attach)</a>
+	<a href="#" onClick="move('chuga','0');" class="btn_blue">등록(Attach)</a>
 </div>
 
 <div class="paging">
@@ -183,7 +191,7 @@
 </div>
 <script>
 function move(value1, value2){
-	location.href="${path}/board/" + value1 + '?no='  + value2 + "&${searchQuery}";
+	location.href="${path}/board/" + value1 + "?no="  + value2 + "&${searchQuery}";
 }
 
 function goSearch() {

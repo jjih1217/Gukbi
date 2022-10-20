@@ -1,6 +1,9 @@
 package com.jih.springPortfolio.board.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +42,18 @@ public class BoardController {
 	@RequestMapping("/list")
 	public String list(
 			Model model,
-			@ModelAttribute BoardDTO arguDto,
-			HttpServletRequest request
-			) {
+			HttpServletRequest request,
+			@ModelAttribute BoardDTO arguDto
+			) throws UnsupportedEncodingException {
 		
 		String title = "게시판 목록";
+		
+		/*
+		String searchGubun =  request.getParameter("searchGubun");
+		String searchData =  request.getParameter("searchData");
+		request.setAttribute("searchGubun", searchGubun);
+		request.setAttribute("searchData", searchData);
+		*/
 		
 		String pageNumber_ = request.getParameter("pageNumber");
 		int pageNumber = util.getNumberCheck(pageNumber_, 1);
@@ -55,18 +65,19 @@ public class BoardController {
 		int totalRecord = boardDao.getTotalRecord(arguDto);
 		model.addAttribute("totalRecord", totalRecord);
 		
+		String searchQuery = search.getSerchInfo(pageNumber, arguDto.getSearchGubun(), arguDto.getSearchData());
+		request.setAttribute("searchQuery", searchQuery);
 		
 		Map<String, Integer> map = util.getPagerMap(pageNumber, pageSize, blockSize, totalRecord);
 		map.put("blockSize", blockSize);
 		
-		request.setAttribute("map", map);
-		
+		//request.setAttribute("map", map);
 		
 		arguDto.setStartRecord(map.get("startRecord"));
 		arguDto.setLastRecord(map.get("lastRecord"));
 		
-		
 		model.addAttribute("map", map);
+		
 		List<BoardDTO> list = boardDao.getSelectAll(arguDto);
 		
 		model.addAttribute("title", title);
@@ -99,9 +110,10 @@ public class BoardController {
 	@RequestMapping("/chuga")
 	public String chuga(
 		Model model,
+		HttpServletRequest request,
 		@ModelAttribute BoardDTO arguDto
 		) {
-	
+
 		String title = "게시판 추가";
 		BoardDTO returnDto = boardDao.getSelectOne(arguDto);
 		

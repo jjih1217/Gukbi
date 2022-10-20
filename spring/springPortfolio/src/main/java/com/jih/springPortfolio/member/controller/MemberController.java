@@ -35,6 +35,7 @@ public class MemberController {
 	
 	Util util = new Util();
 	Search search = new Search();		
+	
 	// list ------------------------------------------------------------------------------------
 	@RequestMapping("/list")
 	public String list(
@@ -44,11 +45,12 @@ public class MemberController {
 		) throws UnsupportedEncodingException {
 		
 		String title = "회원목록";
-		
+		/*
 		String searchGubun =  request.getParameter("searchGubun");
 		String searchData =  request.getParameter("searchData");
 		request.setAttribute("searchGubun", searchGubun);
 		request.setAttribute("searchData", searchData);
+		*/
 		
 		String pageNumber_ = request.getParameter("pageNumber");
 		int pageNumber = util.getNumberCheck(pageNumber_, 1);
@@ -60,20 +62,20 @@ public class MemberController {
 		int totalRecord = memberDao.getTotalRecord(arguDto);
 		model.addAttribute("totalRecord", totalRecord);
 		
-		String searchQuery = search.getSerchInfo(pageNumber, searchGubun, searchData);
+		String searchQuery = search.getSerchInfo(pageNumber, arguDto.getSearchGubun(), arguDto.getSearchData());
 		request.setAttribute("searchQuery", searchQuery);
 		
 		Map<String, Integer> map = util.getPagerMap(pageNumber, pageSize, blockSize, totalRecord);
 		map.put("blockSize", blockSize);
 		
-		request.setAttribute("map", map);
+		//model.addAttribute("map", map);
+		//request.setAttribute("map", map);
 		
 		arguDto.setStartRecord(map.get("startRecord"));
 		arguDto.setLastRecord(map.get("lastRecord"));
 		
 		model.addAttribute("map", map);
 
-		
 		List<MemberDTO> list = memberDao.getSelectAll(arguDto);
 		
 		model.addAttribute("title", title);

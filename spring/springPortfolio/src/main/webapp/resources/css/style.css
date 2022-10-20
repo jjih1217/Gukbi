@@ -146,7 +146,7 @@ h2.tit:after{
 
 .board .board_list_body .item {border-bottom: 1px solid #dfdfdf;display: flex;}
 .board .board_list_body .item:last-child {border-bottom: 0;}
-.board .board_list_body .item div {padding: 15px;text-align: center;}
+.board .board_list_body .item div {padding: 15px;text-align: center;font-size: 0.9rem;}
 
 .board .board_list_body .item div a{
     color: #2d4cb2;
