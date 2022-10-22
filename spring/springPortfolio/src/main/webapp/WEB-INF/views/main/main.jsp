@@ -11,6 +11,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet" type="text/css">
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <body>
 

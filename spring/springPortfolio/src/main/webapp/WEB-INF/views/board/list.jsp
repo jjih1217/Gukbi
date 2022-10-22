@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ include file = "../_include/inc_header.jsp" %>
+<%-- <%@ include file = "../_include/inc_header.jsp" %> --%>
+<%@ include file = "_inc_top.jsp" %>
 
 <h2 class="tit">${title}</h2>
 <form name="searchForm">
@@ -77,21 +78,23 @@
 	<div class="board_list_head">
 		<div class="col-5">no</div>
 		<div class="col-5">num</div>
-		<div class="col-30">제목</div>
+		<div class="col-10">공지</div>
+		<div class="col-50  al-left">제목</div>
 		<div class="col-10">작성자</div>
 		<div class="col-10">작성일</div>
-		<div class="col-5">조회수</div>
+		<div class="col-10">조회수</div>
+		<div class="col-10">첨부파일</div>
+		<!-- 
+		<div class="col-10">refNo</div>
+		<div class="col-10">stepNo</div>
+		<div class="col-10">levelNo</div>
+		<div class="col-10">parent<br>No</div> -->
 		
-		<div class="col-5">refNo</div>
-		<div class="col-5">stepNo</div>
-		<div class="col-5">levelNo</div>
-		<div class="col-5">parentNo</div>
+		<!-- 
+			<div class="col-5">memberNo</div>
+			<div class="col-10">ip</div>
+		 -->
 		
-		<div class="col-5">memberNo</div>
-		<div class="col-5">ip</div>
-		<div class="col-5">공지글</div>
-		<div class="col-5">비밀글</div>
-	
 	</div>
 	<div class="board_list_body">
 		<c:if test="${list.size() == 0 }">
@@ -104,46 +107,41 @@
 			<div class="item">
 				<div class="col-5">${boardDto.no }</div>
 				<div class="col-5">${boardDto.num }</div>
-				<div class="col-30 al-left">
-				<c:foreach var="blankValue" begin="2" end="${dto.getStepNo() }" step="1">
-					&nbsp;&nbsp;
-				</c:foreach>
-				<c:if test="${dto.getStepNo() > 1 }">
-					[re]:
-				</c:if>
+				<div class="col-10">
+					<c:if test="${boardDto.noticeNo > 0 }">
+						<i class="xi-bell xi-x2"></i>
+					</c:if>
+				</div>
+				<div class="col-50 al-left">
+	
+					<c:forEach begin="2" end="${boardDto.stepNo }">&nbsp;&nbsp;</c:forEach>
+					<c:if test ="${boardDto.stepNo > 1 }"><i class="xi-subdirectory-arrow"></i></c:if>
+					<c:if test = "${boardDto.secretGubun == 'T' }">
+						<i class="xi-lock xi-x2"></i>
+					</c:if>
+					<a href="#" onClick="move('view','${boardDto.no}')">${boardDto.subject }</a>
 					
-					<%-- 
-					<% 
-						String blankValue = "";
-						for (int k=2; k<=dto.getStepNo(); k++) { // 1 --> 새글
-							blankValue += "&nbsp;&nbsp;";
-						}
-						
-						int imsiLength = 3;
-						String imsiSubject = dto.getSubject();
-						if(imsiSubject.length() > imsiLength) {
-							imsiSubject = imsiSubject.substring(0, imsiLength) + "...";
-						}
-						
-						if(dto.getStepNo() > 1) {
-							imsiSubject = "[Re]: " + imsiSubject;
-						}
-					%>
-				<%=blankValue %>  --%>
-				
-				<a href="#" onClick="move('view','${boardDto.no}')">${boardDto.subject }</a>
 				</div>
 				<div class="col-10">${boardDto.writer }</div>
 				<div class="col-10">${boardDto.regiDate }</div>
-				<div class="col-5">${boardDto.hit }</div>
-				<div class="col-5">${boardDto.refNo }</div>
-				<div class="col-5">${boardDto.stepNo }</div>
-				<div class="col-5">${boardDto.levelNo }</div>
-				<div class="col-5">${boardDto.parentNo }</div>
-				<div class="col-5">${boardDto.memberNo }</div>
-				<div class="col-5">${boardDto.ip }</div>
-				<div class="col-5">${boardDto.noticeNo }</div>
-				<div class="col-5">${boardDto.secretGubun }</div>
+				<div class="col-10">${boardDto.hit }</div>
+				<div class="col-10">
+				 	<c:if test="${boardDto.attachInfo != '-'}">
+				 		<i class="xi-file-o xi-1x"></i>
+				 	</c:if>
+				 </div>
+				<%-- 
+				<div class="col-10">${boardDto.refNo }</div>
+				<div class="col-10">${boardDto.stepNo }</div>
+				<div class="col-10">${boardDto.levelNo }</div>
+				<div class="col-5">${boardDto.parentNo }</div> 
+				--%>
+				
+				<%-- 
+				<div class="col-10">${boardDto.memberNo }</div>
+				<div class="col-10">${boardDto.ip }</div>
+				 --%>
+				 
 			</div>
 		</c:forEach>
 	</div>

@@ -33,11 +33,14 @@
  			<%-- <li id="memo">
  				<a href="${path }/memo/list">메모장</a>
  			</li> --%>
- 			<li id="guestBook">
- 				<a href="${path }/guestBook/list">방명록</a>
+ 			<li id="notice">
+ 				<a href="${path }/notice/list">공지사항</a>
  			</li>
- 			<li id="board_Freeboard">
- 				<a href="${path }/board/list">게시판</a>
+ 			<li id="guestBook">
+ 				<a href="${path }/guestBook/list">익명게시판</a>
+ 			</li> 
+ 			<li id="board">
+ 				<a href="${path }/board/list">문의게시판</a>
  			</li>
  			<%-- <li id="boardChk">
  				<a href="${path }/boardChk/list">게시판관리</a>

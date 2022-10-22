@@ -56,4 +56,9 @@ public class BoardDAOImpl implements BoardDAO{
 		return sqlSession.update("board.setUpdateRelevel", paramDto);
 		
 	}
+
+	@Override
+	public int setUpdateHit(BoardDTO paramDto) {
+		return sqlSession.update("board.setUpdateHit", paramDto);
+	}
 }

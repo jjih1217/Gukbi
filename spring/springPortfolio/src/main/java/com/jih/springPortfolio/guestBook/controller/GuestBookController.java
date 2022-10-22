@@ -38,7 +38,7 @@ public class GuestBookController {
 			HttpServletRequest request
 			) throws UnsupportedEncodingException {
 		
-		String title = "방명록 목록";
+		String title = "익명게시판";
 		
 		String pageNumber_ = request.getParameter("pageNumber");
 		int pageNumber = util.getNumberCheck(pageNumber_, 1);
@@ -76,7 +76,7 @@ public class GuestBookController {
 		@ModelAttribute GuestBookDTO arguDto
 		) {
 	
-	String title = "방명록 상세보기";
+	String title = "익명게시판 상세보기";
 	GuestBookDTO returnDto = guestBookDao.getSelectOne(arguDto);
 	
 	model.addAttribute("folderName", folderName);
@@ -89,7 +89,7 @@ public class GuestBookController {
 		Model model
 		) {
 	
-		String title = "방명록 추가";
+		String title = "글 추가";
 		model.addAttribute("title", title);
 		
 		model.addAttribute("folderName", folderName);
@@ -127,7 +127,7 @@ public class GuestBookController {
 		@ModelAttribute GuestBookDTO arguDto
 		) {
 	
-		String title = "방명록 수정";
+		String title = "글 수정";
 		GuestBookDTO returnDto = guestBookDao.getSelectOne(arguDto);
 		
 		model.addAttribute("title", title);
@@ -162,7 +162,7 @@ public class GuestBookController {
 		@ModelAttribute GuestBookDTO arguDto
 		) {
 	
-		String title = "방명록 삭제";
+		String title = "글 삭제";
 		GuestBookDTO returnDto = guestBookDao.getSelectOne(arguDto);
 		
 		model.addAttribute("title", title);

@@ -11,6 +11,7 @@ header .util{
 header .util a{
 	padding: 4px 10px;
 	border-radius: 18px;
+	font-size: 0.9rem;
 }
 header .util .login{
     background: #000;
@@ -38,8 +39,7 @@ header nav ul {
 header nav ul li {}
 header nav ul li a{
     font-weight: 600;
-    color: #464646;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
 }
 header nav ul li a:hover{
     color:#000;
@@ -68,7 +68,7 @@ h2.tit:after{
 .form-box {
     width: 100%;
     background: #f1f4f9;
-    padding: 1.5rem 6rem;
+    padding: 1.5rem 0;
     margin: 30px 0;
     border: 1px solid #eee;
 }
@@ -96,7 +96,7 @@ h2.tit:after{
 }
 .form-box .form-inline .form-group input{
 	padding: 10px;
-	width: 33rem;
+	width: 23rem;
 }
 .chugaBox .form-inline .form-group input{
 	width: 15rem;
@@ -106,7 +106,8 @@ h2.tit:after{
     display: inline-block;
     width: 80px;
     text-align: center;
-    line-height: 36px;
+    line-height: 33px;
+    font-size: 0.9rem;
 }
 .form-box .form-inline .form-group .btn.btn_search{
     background: #203c6a;
@@ -115,6 +116,50 @@ h2.tit:after{
 .form-box .form-inline .form-group .btn.btn_reset{
     background: #fff;
     border: 1px solid #cdcdcd;
+}
+
+.secret {
+	
+}
+.secret form{
+	
+}
+
+.secret form .passwdArea{
+	
+width: 26rem;
+	
+margin: 15px auto;
+	
+display: flex;
+}
+.secret form .passwdArea input{
+	
+width: 100%;
+	
+border: 1px solid #d2d2d2;
+	
+padding: 10px;
+}
+.secret form .passwdArea a{
+	
+padding: 12px 10px;
+	
+font-weight: 400;
+	
+display: inline-block;
+	
+min-width: 58px;
+	
+text-align: center;
+	
+font-size: 0.9rem;
+	
+transition: 0.3s ease;
+	
+background: #000;
+	
+color: #fff;
 }
 
 .boardInfo div{position: relative;padding-left: 10px;margin-bottom: 9px;}
@@ -175,13 +220,21 @@ h2.tit:after{
     padding: 1rem 20px;
     border-bottom: 1px solid #ccc;
     align-items: center;
+    justify-content: flex-start;
+}
+
+.board .board_view_head .col .col-group {
+	
+display: flex;
+	
+margin-right: 9rem;
 }
 .board .board_view_head .col .colTit{
-    width: 10rem;
+    width: 5rem;
     font-weight: 600;
 }
 .board .board_view_head .col .colCnt{
-    width: 90rem;
+    /* width: 90rem; */
     line-height: 1.3rem;
 }
 
@@ -379,7 +432,7 @@ font-weight: 500;
     display: inline-block;
     min-width: 58px;
     text-align: center;
-    font-size: rem;
+    font-size: 0.9rem;
     transition: 0.3s ease;
 }
 .btn_gray{

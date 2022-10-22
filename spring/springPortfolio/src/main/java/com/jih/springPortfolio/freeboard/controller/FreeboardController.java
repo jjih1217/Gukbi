@@ -1,4 +1,4 @@
-package com.jih.springPortfolio.board.controller;
+package com.jih.springPortfolio.freeboard.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -27,7 +27,7 @@ import com.jih.springPortfolio.board.model.dto.BoardDTO;
 
 @Controller
 @RequestMapping("/board")
-public class BoardController {
+public class FreeboardController {
 	
 	@Inject
 	BoardDAO boardDao;

@@ -14,6 +14,23 @@ public class MemberNewDTO {
 	
 	private String searchGubun;
 	private String searchData;
+	
+	private int startRecord;
+	private int lastRecord;
+	
+	
+	public int getStartRecord() {
+		return startRecord;
+	}
+	public void setStartRecord(int startRecord) {
+		this.startRecord = startRecord;
+	}
+	public int getLastRecord() {
+		return lastRecord;
+	}
+	public void setLastRecord(int lastRecord) {
+		this.lastRecord = lastRecord;
+	}
 	public int getNo() {
 		return no;
 	}

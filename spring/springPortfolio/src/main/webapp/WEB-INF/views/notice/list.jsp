@@ -12,29 +12,29 @@
 				<label for="searchGubun">구분</label>
 				<select name="searchGubun" id="searchGubun">
 					<c:choose>
-						<c:when test="${searchGubun == 'id' }">
+						<c:when test="${searchGubun == 'subject' }">
 							<option value="">-- 선택 --</option>
-							<option value="id" selected>아이디</option>
-							<option value="name">이름</option>
-							<option value="id_name">아이디 또는 이름</option>
+							<option value="subject" selected>제목</option>
+							<option value="content">내용</option>
+							<option value="subject_content">제목 또는 내용</option>
 						</c:when>
-						<c:when test="${searchGubun == 'name' }">
+						<c:when test="${searchGubun == 'content' }">
 							<option value="">-- 선택 --</option>
-							<option value="id">아이디</option>
-							<option value="name" selected>이름</option>
-							<option value="id_name">아이디 또는 이름</option>
+							<option value="subject">제목</option>
+							<option value="content" selected>내용</option>
+							<option value="subject_content">제목 또는 내용</option>
 						</c:when>
-						<c:when test="${searchGubun == 'id_name' }">
+						<c:when test="${searchGubun == 'subject_content' }">
 							<option value="" >-- 선택 --</option>
-							<option value="id">아이디</option>
-							<option value="name">이름</option>
-							<option value="id_name" selected>아이디 또는 이름</option>
+							<option value="subject">제목</option>
+							<option value="content">내용</option>
+							<option value="subject_content" selected>제목 또는 내용</option>
 						</c:when>
 						<c:otherwise>
 							<option value="" selected>-- 선택 --</option>
-							<option value="id">아이디</option>
-							<option value="name">이름</option>
-							<option value="id_name">아이디 또는 이름</option>
+							<option value="subject">제목</option>
+							<option value="content">내용</option>
+							<option value="subject_content">제목 또는 내용</option>
 						</c:otherwise>
 					</c:choose>
 				</select>
@@ -76,12 +76,14 @@
 
 <div class="board">
 	<div class="board_list_head">
-		<div class="col-20">순번</div>
-		<div class="col-20">아이디</div>
-		<div class="col-20">이름</div>
-		<div class="col-20">연락처</div>
-	<!-- 	<div class="col-20">주민번호</div> -->
-		<div class="col-20">가입일</div>
+		<div class="col-5">no</div>
+		<div class="col-5">num</div>
+		<div class="col-10">공지</div>
+		<div class="col-50  al-left">제목</div>
+		<div class="col-10">작성자</div>
+		<div class="col-10">작성일</div>
+		<div class="col-10">조회수</div>
+		<div class="col-10">첨부파일</div>
 	</div>
 	<div class="board_list_body">
 		<c:if test="${list.size() == 0 }">
@@ -90,26 +92,35 @@
 			</div>
 		</c:if>
 		
-		<c:forEach var="memberDto" items="${list }">
+		<c:forEach var="boardDto" items="${list }">
 			<div class="item">
-				<div class="col-20">${memberDto.no }</div>
-				<div class="col-20"><a href="#" onClick="move('view','${memberDto.no}')">${memberDto.id}</a></div>
-				<div class="col-20">${memberDto.name}</div>
-				<div class="col-20">
-					${fn:substring(memberDto.phone, 0, 3)} - 
-					${fn:substring(memberDto.phone, 3, 7)} - 
-					${fn:substring(memberDto.phone, 7, 11)}
+				<div class="col-5">${boardDto.no }</div>
+				<div class="col-5">${boardDto.num }</div>
+				<div class="col-10">
+					<c:if test="${boardDto.noticeNo > 0 }">
+						<i class="xi-bell xi-x2"></i>
+					</c:if>
 				</div>
-				<div class="col-20">${memberDto.regiDate}</div>
+				<div class="col-50 al-left">
+					<a href="#" onClick="move('view','${boardDto.no}')">${boardDto.subject }</a>
+				</div>
+				<div class="col-10">${boardDto.writer }</div>
+				<div class="col-10">${boardDto.regiDate }</div>
+				<div class="col-10">${boardDto.hit }</div>
+				<div class="col-10">
+				 	<c:if test="${boardDto.attachInfo != '-'}">
+				 		<i class="xi-file-o xi-1x"></i>
+				 	</c:if>
+				 </div>
 			</div>
 		</c:forEach>
 	</div>
 </div>
 
 <div class="btn_area">
-	<a href="${path }/member/list" class="btn_gray">전체목록</a>
-	<!-- <a href="#" onClick="move('list','');" class="btn_gray">목록</a> -->
-	<a href="#" onClick="move('chuga','');" class="btn_blue">등록(Attach)</a>
+	<c:if test="${sessionScope.sessionNo != null && sessionScope.sessionNo == '3' && sessionScope.sessionId == 'admin'}">
+		<a href="#" onClick="move('chuga','0');" class="btn_blue">등록(Attach)</a>
+	</c:if>
 </div>
 
 <div class="paging">
@@ -148,12 +159,12 @@
 </div>
 <script>
 function move(value1, value2){
-	location.href="${path}/member/" + value1 + '?no='  + value2 + "&${searchQuery}";
+	location.href="${path}/notice/" + value1 + "?no="  + value2 + "&${searchQuery}";
 }
 
 function goSearch() {
 	if(confirm('검색하시겠습니까?')){
-		document.searchForm.action = "${path}/member/search";
+		document.searchForm.action = "${path}/notice/search";
 		document.searchForm.method = "post";
 		document.searchForm.submit();
 	}
@@ -164,6 +175,6 @@ function goReset() {
 	document.searchForm.searchData.value= "";
 }
 function goPage (value1) {
-	location.href = "${path}/member/list?pageNumber=" + value1 + "&${searchQuery}";
+	location.href = "${path}/notice/list?pageNumber=" + value1 + "&${searchQuery}";
 }
 </script>

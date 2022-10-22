@@ -4,11 +4,14 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.jih.springStudy._common.Constants;
 import com.jih.springStudy.memberNew.model.dao.MemberNewDAO;
 import com.jih.springStudy.memberNew.model.dto.MemberNewDTO;
 
@@ -24,9 +27,11 @@ public class MemberNewController {
 	@RequestMapping("/list")
 	public String list(
 			Model model,
-			@ModelAttribute MemberNewDTO dto
+			@ModelAttribute MemberNewDTO dto,
+			HttpServletRequest request
 		) {
 		
+		//검색
 		String searchGubun = dto.getSearchGubun();
 		String searchData = dto.getSearchData();
 		if(searchGubun == null || searchGubun.trim().equals("")) {
@@ -40,11 +45,60 @@ public class MemberNewController {
 			searchData = "";
 		}
 		
+		
+		//페이징
+		String pageNumber_ = request.getParameter("pageNumber");
+		if(pageNumber_ == null || pageNumber_.trim().equals("")) {
+			pageNumber_ = "1";
+		}
+		int pageNumber = Integer.parseInt(pageNumber_);
+		
+		MemberNewDAO memberNewDao = new MemberNewDAO();
 		MemberNewDTO arguDto = new MemberNewDTO();
 		arguDto.setSearchGubun(searchGubun);
 		arguDto.setSearchData(searchData);
 		
-		MemberNewDAO memberNewDao = new MemberNewDAO();
+		int pageSize = Constants.MEMBER_PAGE_SIZE;
+		int blockSize = Constants.BLOCKSIZE;
+		int totalRecord = memberNewDao.getTotalRecord(arguDto);
+		int startRecord = pageSize * (pageNumber - 1) + 1;
+		int lastRecord = pageSize * pageNumber;
+		if(lastRecord > totalRecord) {
+			lastRecord = totalRecord;
+		}
+		int jj = totalRecord - pageSize * (pageNumber - 1);
+		
+		int totalPage = 0;
+		int startPage = 0;
+		int lastPage = 0;
+		
+		if(totalRecord > 0) {
+			totalPage = totalRecord / pageSize + (totalRecord % pageSize == 0 ? 0 : 1);
+			startPage = (pageNumber / blockSize - (pageNumber % blockSize != 0 ? 0 : 1)) * blockSize + 1;
+			lastPage = startPage + blockSize - 1;
+			
+			if(lastPage > totalPage) {
+				lastPage = totalPage;
+			}
+		} else {
+			totalPage = 1;
+		}
+		
+		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("pageSize", pageSize );
+		model.addAttribute("blockSize",blockSize );
+		model.addAttribute("totalRecord", totalRecord);
+		model.addAttribute("startRecord", startRecord);
+		model.addAttribute("lastRecord", lastRecord);
+		model.addAttribute("jj", jj);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("lastPage", lastPage);
+		
+		//검색범위
+		arguDto.setStartRecord(startRecord);
+		arguDto.setLastRecord(lastRecord);
+		
 		List<MemberNewDTO> list = memberNewDao.getSelectAll(arguDto);
 		
 		model.addAttribute("list", list);

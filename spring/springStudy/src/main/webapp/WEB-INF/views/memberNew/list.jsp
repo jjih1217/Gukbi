@@ -44,6 +44,43 @@
 	<button type="button" onClick="search();">검색</button>
 </form>
 
+<hr>
+<c:if test="${totalRecord > 0}">
+	<c:set var= "value1" value="list"/>
+	<a href="#" onClick="goPage('${value1}', '1');">[첫페이지]</a>
+	
+	<c:if test="${startPage > blockSize }">
+		<a href="#" onClick="goPage('${value1}', '${startPage - blockSize }');">[이전10개]</a>
+	</c:if>
+	<c:if test="${lastPage <= blockSize }">
+		[이전10개]
+	</c:if>
+	<c:forEach var="i" begin="${startPage }" end="${lastPage }" step="1">
+	<c:if test="${i == pageNumber }">
+			[${i }]
+		</c:if>
+		<c:if test="${i != pageNumber }">
+			<a href="#" onClick="goPage('${value1}', '${ i}');">${i }</a>
+		</c:if>
+	</c:forEach>
+	
+	<c:if test="${lastPage < totalPage }">
+		<a href="#" onClick="goPage('${value1}', '${startPage + blockSize }');">[다음10개]</a>
+	</c:if>
+	<c:if test="${lastPage >= totalPage }">
+		[다음10개]
+	</c:if>
+	<a href="#" onClick="goPage('${value1}', '${totalPage }');">[마지막페이지]</a>
+	
+</c:if>
+
+
+
+
+
+	
+
+
 <script>
 function move(value1, value2) {
 	location.href= "${path}/memberNew/" + value1 + "?no=" + value2 + "&${searchQueryString}";
@@ -55,6 +92,9 @@ function search() {
 		document.searchForm.method = "post";
 		document.searchForm.submit();
 	}
+}
+function goPage(value1, value2) {
+	location.href="${path}/memberNew/" + value1 + "?pageNumber=" + value2 + "&${searchQueryString}";
 }
 </script>
 </body>

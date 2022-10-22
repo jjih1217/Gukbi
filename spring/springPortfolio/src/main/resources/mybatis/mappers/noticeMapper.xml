@@ -3,11 +3,11 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="board">
+<mapper namespace="notice">
 <sql id="search">
 	<choose>
-		<when test="searchGubun == 'subject_writer' ">
-			and (subject like '%' || #{searchData} || '%' or writer like '%' || #{searchData} || '%')
+		<when test="searchGubun == 'subject_content' ">
+			and (subject like '%' || #{searchData} || '%' or content like '%' || #{searchData} || '%')
 		</when>
 		<when test="searchGubun != null and searchGubun != '' and searchData != null and searchData != ''">
 			and (${searchGubun} like '%' || #{searchData} || '%')
@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</choose>
 </sql>
 
-<select id="getSelectAll" resultType="com.jih.springPortfolio.board.model.dto.BoardDTO">
+<select id="getSelectAll" resultType="com.jih.springPortfolio.notice.model.dto.NoticeDTO">
 
 	<!-- 
 	
@@ -33,10 +33,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 -->
 	select * from (select A.*, Rownum rnum from (
 	
-		select * from board where 1 = 1
+		select * from notice where 1 = 1
 		<include refid="search"></include>
-		order by noticeNo desc, refNo desc, levelNo asc
-		
+		order by noticeNo desc, refNo desc
 <![CDATA[
 	) A) where rnum >= #{startRecord} and rnum <= #{lastRecord}
 ]]> 
@@ -44,77 +43,63 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getTotalRecord" resultType="int">
-	select count(*) from board where 1 = 1
+	select count(*) from notice where 1 = 1
 	<include refid="search"></include>
 </select>
 
 <select id="getMaxNumRefNoNoticeNo" resultType="int">
-	select nvl(max(${gubun}),0) maxValue from board
+	select nvl(max(${gubun}),0) maxValue from notice
 </select>
 
-<update id="setUpdateRelevel">
-	update board set levelNo = (levelNo + 1) where refNo = #{refNo} 
-	<![CDATA[
-	and levelNo > #{levelNo}
-	]]>
-</update>
 
-<select id="getSelectOne" resultType="com.jih.springPortfolio.board.model.dto.BoardDTO">
+<select id="getSelectOne" resultType="com.jih.springPortfolio.notice.model.dto.NoticeDTO">
 	<!-- select * from board where no = #{no} -->
 	  select * from ( select b.*, 
-					  LAG(no) OVER (order by noticeNo desc, refNo desc, levelNo asc) preNo,
-					  LAG(subject) OVER (order by noticeNo desc, refNo desc, levelNo asc) preSubject,
-					  LEAD(no) OVER (order by noticeNo desc, refNo desc, levelNo asc) nxtNo,
-					  LEAD(subject) OVER (order by noticeNo desc, refNo desc, levelNo asc) nxtSubject 
-		   			  from board b where 1 = 1
+					  LAG(no) OVER (order by noticeNo desc, refNo desc) preNo,
+					  LAG(subject) OVER (order by noticeNo, refNo desc) preSubject,
+					  LEAD(no) OVER (order by noticeNo desc, refNo desc) nxtNo,
+					  LEAD(subject) OVER (order by noticeNo desc, refNo desc) nxtSubject 
+		   			  from notice b where 1 = 1
 		   			  <include refid="search"></include>
-		   			  order by noticeNo desc, refNo desc, levelNo asc
+		   			  order by noticeNo desc, refNo desc
 		    		) 
 	  where no = #{no}
 </select>
 
 <insert id="setInsert">
-	insert into board values (
-		seq_board.nextval,
+	insert into notice values (
+		seq_notice.nextval,
 		#{num},
 		#{tbl},
 		#{writer},
 		#{subject},
 		#{content},
-		#{email},
 		#{passwd},
 		#{refNo},
-		#{stepNo},
-		#{levelNo},
-		#{parentNo},
 		#{hit},
-		#{ip},
 		#{memberNo},
 		#{noticeNo},
-		#{secretGubun},
 		sysdate,
 		#{attachInfo}
 	)
 </insert>
 
 <update id="setUpdate">
-	update board set
+	update notice set
 	subject = #{subject},
-	writer = #{writer},
-	email = #{email},
 	content = #{content},
-	secretGubun = #{secretGubun},
+	noticeNo = #{noticeNo},
 	attachInfo = #{attachInfo}
 	where no = #{no} and passwd = #{passwd}
 </update>
 
 <delete id="setDelete">
-	delete from board
+	delete from notice
 	where no = #{no} and passwd = #{passwd}
 </delete>
 
 <update id="setUpdateHit">
-	update board set hit = (hit + 1) where no = #{no}
+	update notice set hit = (hit + 1) where no = #{no}
 </update>
 
 <!-- 로그인 -->

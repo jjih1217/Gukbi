@@ -40,9 +40,9 @@ public class MemberController {
 	@RequestMapping("/list")
 	public String list(
 			Model model,
-			HttpServletRequest request,
-			@ModelAttribute MemberDTO arguDto
-		) throws UnsupportedEncodingException {
+			@ModelAttribute MemberDTO dto,
+			HttpServletRequest request
+		) {
 		
 		String title = "회원목록";
 		/*
@@ -51,6 +51,23 @@ public class MemberController {
 		request.setAttribute("searchGubun", searchGubun);
 		request.setAttribute("searchData", searchData);
 		*/
+		
+		String searchGubun = dto.getSearchGubun();
+		String searchData = dto.getSearchData();
+		if(searchGubun == null || searchGubun.trim().equals("")) {
+			searchGubun = "";
+		}
+		if(searchData == null || searchData.trim().equals("")) {
+			searchData = "";
+		}
+		if(searchGubun.equals("") || searchData.equals("")) {
+			searchGubun = "";
+			searchData = "";
+		}
+		
+		MemberDTO arguDto = new MemberDTO();
+		arguDto.setSearchGubun(searchGubun);
+		arguDto.setSearchData(searchData);
 		
 		String pageNumber_ = request.getParameter("pageNumber");
 		int pageNumber = util.getNumberCheck(pageNumber_, 1);
@@ -62,14 +79,16 @@ public class MemberController {
 		int totalRecord = memberDao.getTotalRecord(arguDto);
 		model.addAttribute("totalRecord", totalRecord);
 		
-		String searchQuery = search.getSerchInfo(pageNumber, arguDto.getSearchGubun(), arguDto.getSearchData());
-		request.setAttribute("searchQuery", searchQuery);
+		String searchQuery = "";
+		try {
+			searchQuery = search.getSerchInfo(pageNumber, arguDto.getSearchGubun(), arguDto.getSearchData());
+			model.addAttribute("searchQuery", searchQuery);
+		} catch (UnsupportedEncodingException e) {
+			//e.printStackTrace();
+		}
 		
 		Map<String, Integer> map = util.getPagerMap(pageNumber, pageSize, blockSize, totalRecord);
 		map.put("blockSize", blockSize);
-		
-		//model.addAttribute("map", map);
-		//request.setAttribute("map", map);
 		
 		arguDto.setStartRecord(map.get("startRecord"));
 		arguDto.setLastRecord(map.get("lastRecord"));
@@ -121,25 +140,24 @@ public class MemberController {
 		@RequestMapping("/chugaAttachProc")
 		public String chugaAttach(
 				Model model,
-				HttpServletRequest request,
-				@ModelAttribute MemberDTO arguDto,
+				@ModelAttribute MemberDTO dto,
 				@RequestParam("file") List<MultipartFile> multiFileList
 			) {
 			
-			String phone = arguDto.getPhone1() + arguDto.getPhone2() + arguDto.getPhone3();
-			arguDto.setPhone(phone);
+			String phone = dto.getPhone1() + dto.getPhone2() + dto.getPhone3();
+			dto.setPhone(phone);
 			
-			String jumin = arguDto.getJumin1() + arguDto.getJumin2();
-			arguDto.setJumin(jumin);
+			String jumin = dto.getJumin1() + dto.getJumin2();
+			dto.setJumin(jumin);
 
-			String email = arguDto.getEmail1() + arguDto.getEmail2();
-			arguDto.setEmail(email);
+			String email = dto.getEmail1() + dto.getEmail2();
+			dto.setEmail(email);
 			
-			String juso3 = arguDto.getJuso3();
+			String juso3 = dto.getJuso3();
 			if(juso3 == null ||juso3.equals("")) {
 				juso3 = "-";
 			}
-			String juso4 = arguDto.getJuso4();
+			String juso4 = dto.getJuso4();
 			if(juso4 == null ||juso4.equals("")) {
 				juso4 = "-";
 			}
@@ -152,11 +170,11 @@ public class MemberController {
 				attachInfo += "|" + list.get(i);
 			}
 			attachInfo = attachInfo.substring(1);
-			arguDto.setAttachInfo(attachInfo);
+			dto.setAttachInfo(attachInfo);
 			
 			System.out.println("attachInfo: " + attachInfo);
 			
-			int result = memberDao.setInsert(arguDto);
+			int result = memberDao.setInsert(dto);
 			
 			if(result > 0) {
 				return "redirect:/member/list";
@@ -169,10 +187,10 @@ public class MemberController {
 		@RequestMapping("/sujung")
 		public String sujung(
 				Model model,
-				@ModelAttribute MemberDTO arguDto
+				@ModelAttribute MemberDTO dto
 			) {
 			
-			MemberDTO returnDto = memberDao.getSelectOne(arguDto);
+			MemberDTO returnDto = memberDao.getSelectOne(dto);
 			String title = "회원수정";
 			
 			model.addAttribute("title",title);
@@ -187,25 +205,24 @@ public class MemberController {
 		@RequestMapping("/sujungProc")
 		public String sujungProc(
 				Model model,
-				HttpServletRequest request,
-				@ModelAttribute MemberDTO arguDto,
+				@ModelAttribute MemberDTO dto,
 				@RequestParam("file") List<MultipartFile> multiFileList
 			) {
 			
-			String phone = arguDto.getPhone1() + arguDto.getPhone2() + arguDto.getPhone3();
-			arguDto.setPhone(phone);
+			String phone = dto.getPhone1() + dto.getPhone2() + dto.getPhone3();
+			dto.setPhone(phone);
 			
-			String jumin = arguDto.getJumin1() + arguDto.getJumin2();
-			arguDto.setJumin(jumin);
+			String jumin = dto.getJumin1() + dto.getJumin2();
+			dto.setJumin(jumin);
 
-			String email = arguDto.getEmail1() + arguDto.getEmail2();
-			arguDto.setEmail(email);
+			String email = dto.getEmail1() + dto.getEmail2();
+			dto.setEmail(email);
 			
-			String juso3 = arguDto.getJuso3();
+			String juso3 = dto.getJuso3();
 			if(juso3 == null ||juso3.equals("")) {
 				juso3 = "-";
 			}
-			String juso4 = arguDto.getJuso4();
+			String juso4 = dto.getJuso4();
 			if(juso4 == null ||juso4.equals("")) {
 				juso4 = "-";
 			}
@@ -218,16 +235,16 @@ public class MemberController {
 				attachInfo += "|" + list.get(i);
 			}
 			attachInfo = attachInfo.substring(1);
-			arguDto.setAttachInfo(attachInfo);
+			dto.setAttachInfo(attachInfo);
 			
 			System.out.println("attachInfo: " + attachInfo);
 			
-			int result = memberDao.setUpdate(arguDto);
+			int result = memberDao.setUpdate(dto);
 			
 			if(result > 0) {
-				return "redirect:/member/view?no=" + arguDto.getNo();
+				return "redirect:/member/view?no=" + dto.getNo();
 			} else {
-				return "redirect:/member/sujung?no=" + arguDto.getNo();
+				return "redirect:/member/sujung?no=" + dto.getNo();
 			}
 			
 		}
@@ -235,10 +252,10 @@ public class MemberController {
 		@RequestMapping("/sakje")
 		public String sakje(
 				Model model,
-				@ModelAttribute MemberDTO arguDto
+				@ModelAttribute MemberDTO dto
 			) {
 			
-			MemberDTO returnDto = memberDao.getSelectOne(arguDto);
+			MemberDTO returnDto = memberDao.getSelectOne(dto);
 			String title = "회원삭제";
 			
 			model.addAttribute("title",title);
@@ -254,15 +271,15 @@ public class MemberController {
 		@RequestMapping("/sakjeProc")
 		public String sakjeProc(
 				Model model,
-				@ModelAttribute MemberDTO arguDto
+				@ModelAttribute MemberDTO dto
 			) {
 			
-			int result = memberDao.setDelete(arguDto);
+			int result = memberDao.setDelete(dto);
 			
 			if(result > 0) {
 				return "redirect:/member/list";
 			} else {
-				return "redirect:/member/sakje?no=" + arguDto.getNo();
+				return "redirect:/member/sakje?no=" + dto.getNo();
 			}
 			
 		}
@@ -324,26 +341,35 @@ public class MemberController {
 			return "redirect:/member/login";
 			
 		}
-		// logout ------------------------------------------------------------------------------------
+		// search ------------------------------------------------------------------------------------
 		@RequestMapping("/search")
 		public String search(
 				Model model,
-				HttpServletRequest request,
-				@ModelAttribute MemberDTO arguDto
-			) throws UnsupportedEncodingException {
+				@ModelAttribute MemberDTO dto,
+				HttpServletRequest request
+			) {
 			
-			String searchGubun =  request.getParameter("searchGubun");
-			String searchData =  request.getParameter("searchData");
-			request.setAttribute("searchGubun", searchGubun);
-			request.setAttribute("searchData", searchData);
+			String searchGubun = dto.getSearchGubun();
+			String searchData = dto.getSearchData();
+			
+			if(dto.getSearchGubun() == null || dto.getSearchGubun().trim().equals("")) {
+				searchGubun = "";
+			}
+			if(dto.getSearchData() == null || dto.getSearchData().trim().equals("")) {
+				searchData = "";
+			}
 			
 			String pageNumber_ = request.getParameter("pageNumber");
 			int pageNumber = util.getNumberCheck(pageNumber_, 1);
 			request.setAttribute("pageNumber", pageNumber);
 			
-			String searchQuery = search.getSerchInfo(pageNumber, searchGubun, searchData);
-			request.setAttribute("searchQuery", searchQuery);
-			
+			String searchQuery = "";
+			try {
+				searchQuery = search.getSerchInfo(pageNumber, searchGubun, searchData);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			//model.addAttribute("searchQuery", searchQuery);
 			return "redirect:/member/list?" + searchQuery;
 			
 		}

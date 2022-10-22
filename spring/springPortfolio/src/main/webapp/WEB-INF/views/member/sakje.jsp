@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ include file = "../_include/inc_header.jsp" %>
+<%-- <%@ include file = "../_include/inc_header.jsp" %> --%>
+<%@ include file = "_inc_top.jsp" %>
 
 <h2 class="tit">${title}</h2>
 <form name="DirForm">
@@ -87,7 +88,7 @@ $(document).ready(function(){
 
 
 function save() {
-	if(confirm('수정할까요?')) {
+	if(confirm('삭제할까요?')) {
 		document.DirForm.enctype="multipart/form-data";
 		document.DirForm.action = "${path}/member/sakjeProc";
 		document.DirForm.method = "post";
@@ -97,5 +98,3 @@ function save() {
 
 
 </script>
-</body>
-</html>

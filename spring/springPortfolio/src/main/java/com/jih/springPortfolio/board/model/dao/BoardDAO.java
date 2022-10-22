@@ -14,4 +14,5 @@ public interface BoardDAO {
 	public int getTotalRecord(BoardDTO paramDto);
 	public int getMaxNumRefNoNoticeNo(String gubun);
 	public int setUpdateRelevel(BoardDTO paramDto);
+	public int setUpdateHit(BoardDTO paramDto);
 }

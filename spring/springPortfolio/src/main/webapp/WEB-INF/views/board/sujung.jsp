@@ -6,49 +6,36 @@
 
 <h2 class="tit">${title}</h2>
 <form name="DirForm">
-	<input type="hidden" name="no" value="${dto.no }">
-		<div class="board">
-			<div class="board_view_head">
+	<input type="hidden" name="no" value="${dto.no}">
+	<div class="board">
+		<div class="board_view_head">
 			<div class="col">
-				<div class="colTit">회원번호</div>
+				<div class="colTit">no</div>
 				<div class="colCnt">${dto.no}</div>
 			</div>
 			<div class="col">
-				<div class="colTit">아이디</div>
-				<div class="colCnt">${dto.id}</div>
-			</div>
-			<div class="col">
-				<div class="colTit">이름</div>
-				<div class="colCnt">${dto.name}</div>
-			</div>
-			<div class="col">
-				<div class="colTit">연락처</div>
+				<div class="colTit">제목</div>
 				<div class="colCnt">
-					<select name="phone1" >
-						<c:choose>
-							<c:when test="${fn:substring(dto.phone, 0, 3) == '010'}">
-								<option value="" >- 선택 -</option>
-								<option value="010" selected>010</option>
-								<option value="011">011</option>
-								<option value="016">016</option>
-							</c:when>
-							<c:when test="${fn:substring(dto.phone, 0, 3) == '011'}">
-								<option value="" >- 선택 -</option>
-								<option value="010" >010</option>
-								<option value="011" selected>011</option>
-								<option value="016">016</option>
-							</c:when>
-							<c:otherwise>
-								<option value="" >- 선택 -</option>
-								<option value="010" >010</option>
-								<option value="011">011</option>
-								<option value="016" selected>016</option>
-							</c:otherwise>
-						</c:choose>
-					</select>
-					 - 
-					<input type="text" name="phone2" value="${fn:substring(dto.phone, 3, 7)}"> - 
-					<input type="text" name="phone3" value="${fn:substring(dto.phone, 7, 11)}">
+					<input type="text" name="subject" maxlength="30" style="width:100%;" value="${dto.subject}">
+				</div>
+			</div>
+			<div class="col">
+				<div class="colTit">작성자</div>
+				<div class="colCnt">
+					<input type="text" name="writer" maxlength="8" value="${dto.writer }">
+				</div>
+			</div>
+			<div class="col">
+				<div class="colTit">비밀번호</div>
+				<div class="colCnt">
+					<c:choose>
+						<c:when test="${sessionScope.sessionNo != null && sessionScope.sessionNo == '3' && sessionScope.sessionId == 'admin'}">
+							<input type="password" name="passwd" maxlength="8" value="${dto.passwd }" readonly>
+						</c:when>
+						<c:otherwise>
+							<input type="password" name="passwd" maxlength="8" placeholder="비밀번호를 입력해주세요">
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 			<div class="col">
@@ -92,41 +79,42 @@
 				</div>
 			</div>
 			<div class="col">
-				<div class="colTit">주민번호</div>
+				<div class="colTit">내용</div>
+				<div class="colCnt" style="height: 20rem">
+					<textarea rows="" cols="" name="content" style="width:100%;" value="">
+						${dto.content }
+					</textarea>
+				</div>
+			</div>
+			
+			<div class="col">
+				<div class="colTit">공지글</div>
 				<div class="colCnt">
-					${fn:substring(dto.jumin, 0, 6)} - ${fn:substring(dto.jumin, 7, 8)}****** 
+				<c:choose>
+					<c:when test="${dto.noticeNo > 0}">
+						<input type="radio" name="noticeGubun" value="T" checked> 공지 &nbsp;
+						<input type="radio" name="noticeGubun" value="F"> 일반 &nbsp;
+					</c:when>
+					<c:otherwise>
+						<input type="radio" name="noticeGubun" value="T" disabled> 공지 &nbsp;
+						<input type="radio" name="noticeGubun" value="F" checked> 일반 &nbsp;
+					</c:otherwise>
+				</c:choose>
 				</div>
 			</div>
 			<div class="col">
-				<div class="colTit">주소</div>
-					<div class="colCnt">
-					<input type="text" id="sample6_postcode" placeholder="우편번호" name="juso1" value="${dto.juso1 }">
-					<button type="button" onClick="sample6_execDaumPostcode();" class="btnBasic">우편번호 찾기</button><br>
-					<input type="text" id="sample6_address" placeholder="주소" name="juso2" value="${dto.juso2 }"><br>
-					<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="juso3" value="${dto.juso3 }">
-					<input type="text" id="sample6_extraAddress" placeholder="참고항목" name="juso4" value="${dto.juso4 }">
-				</div>
-			</div>
-			<div class="col">
-				<div class="colTit">회원등급</div>
+				<div class="colTit">비밀글</div>
 				<div class="colCnt">
 					<c:choose>
-						<c:when test="${dto.grade == '최우수회원'}">
-							<input type="radio" name="grade" value="최우수회원" checked> 최우수회원 &nbsp;
-							<input type="radio" name="grade" value="우수회원"> 우수회원 &nbsp;
-							<input type="radio" name="grade" value="일반회원" > 일반회원
-						</c:when>
-						<c:when test="${dto.grade == '우수회원'}">
-							<input type="radio" name="grade" value="최우수회원"> 최우수회원 &nbsp;
-							<input type="radio" name="grade" value="우수회원" checked> 우수회원 &nbsp;
-							<input type="radio" name="grade" value="일반회원" > 일반회원
-						</c:when>
-						<c:otherwise>
-							<input type="radio" name="grade" value="최우수회원"> 최우수회원 &nbsp;
-							<input type="radio" name="grade" value="우수회원"> 우수회원 &nbsp;
-							<input type="radio" name="grade" value="일반회원" checked> 일반회원
-						</c:otherwise>
-					</c:choose>
+					<c:when test="${dto.secretGubun == 'T'}">
+						<input type="radio" name="secretGubun" value="T" checked> 비밀글 &nbsp;
+						<input type="radio" name="secretGubun" value="F" > 비밀글아님 &nbsp;
+					</c:when>
+					<c:otherwise>
+						<input type="radio" name="secretGubun" value="T"> 비밀글 &nbsp;
+						<input type="radio" name="secretGubun" value="F" checked> 비밀글아님 &nbsp;
+					</c:otherwise>
+				</c:choose>
 				</div>
 			</div>
 			<div class="col">
@@ -159,12 +147,12 @@
 			</div>
 		</div>
 	</div>
+	
 </form>
-
 <div class="btn_area">
-	<a href="${path }/member/list" class="btn_gray">전체목록</a>
+	<a href="${path }/board/list" class="btn_clear">전체목록</a>
 	<a href="#" onClick="save();" class="btn_blue">수정</a>
-</div>
+</div>					
 
 <script>
 
@@ -174,11 +162,10 @@ $(document).ready(function(){
 	})
 })
 
-
 function save() {
 	if(confirm('수정할까요?')) {
 		document.DirForm.enctype="multipart/form-data";
-		document.DirForm.action = "${path}/member/sujungProc";
+		document.DirForm.action = "${path}/board/sujungProc";
 		document.DirForm.method = "post";
 		document.DirForm.submit();
 	}
